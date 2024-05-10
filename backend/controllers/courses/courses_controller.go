@@ -1,7 +1,7 @@
 package courses
 
 import (
-	coursesDomain "backend/domain/courses"
+	coursesDomain "backend/model/courses"
 	coursesService "backend/services/courses"
 	"net/http"
 

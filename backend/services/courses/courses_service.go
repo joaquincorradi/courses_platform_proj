@@ -1,7 +1,7 @@
 package courses
 
 import (
-	"backend/domain/courses"
+	"backend/model/courses"
 )
 
 func CreateCourse(request courses.CreateCourseRequest) courses.CreateCourseResponse {

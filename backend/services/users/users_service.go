@@ -1,7 +1,7 @@
 package users
 
 import (
-	"backend/domain/users"
+	"backend/model/users"
 )
 
 func Login(request users.LoginRequest) users.LoginResponse {

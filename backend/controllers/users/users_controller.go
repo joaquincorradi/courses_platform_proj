@@ -1,7 +1,7 @@
 package users
 
 import (
-	usersDomain "backend/domain/users"
+	usersDomain "backend/model/users"
 	UsersService "backend/services/users"
 	"net/http"
 
