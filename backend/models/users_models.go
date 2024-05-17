@@ -1,4 +1,4 @@
-package model
+package models
 
 // Domain Classes - "User" entity
 type User struct {

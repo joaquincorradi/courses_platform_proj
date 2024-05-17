@@ -2,7 +2,7 @@ package users
 
 import (
 	"backend/database"
-	"backend/initializers"
+	"backend/models"
 	"time"
 
 	// usersDomain "backend/model/users"
@@ -17,7 +17,7 @@ import (
 
 func Signup(c *gin.Context) {
 	var body struct {
-		Email    *string
+		Email    string
 		Password string
 	}
 
@@ -39,7 +39,7 @@ func Signup(c *gin.Context) {
 		return
 	}
 
-	user := database.User{
+	user := models.User{
 		Name:     "Ignacio",
 		Lastname: "Altamirano",
 		Email:    body.Email,
@@ -47,7 +47,7 @@ func Signup(c *gin.Context) {
 		Role:     "admin",
 	}
 
-	result := initializers.DB.Create(&user)
+	result := database.DB.Create(&user)
 
 	if result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -57,12 +57,12 @@ func Signup(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{})
+	c.JSON(http.StatusCreated, gin.H{})
 }
 
 func Login(c *gin.Context) {
 	var body struct {
-		Email    *string
+		Email    string
 		Password string
 	}
 
@@ -75,9 +75,9 @@ func Login(c *gin.Context) {
 	}
 
 	// buscamos los datos donde el emial mandado del request es igual al email de la database
-	var user database.User
+	var user models.User
 	original_password := body.Password // VALOR EN * TEXTO * DE LA PASSWORD
-	initializers.DB.First(&user, "email = ?", body.Email)
+	database.DB.First(&user, "email = ?", body.Email)
 
 	// comparar original_password con hashed_password
 	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(original_password)) != nil {
