@@ -81,7 +81,7 @@ func Login(c *gin.Context) {
 
 	// comparar original_password con hashed_password
 	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(original_password)) != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Su contrasenia no es correcta",
 		})
 
@@ -108,7 +108,7 @@ func Login(c *gin.Context) {
 	c.SetSameSite(http.SameSiteLaxMode)
 	c.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
 
-	c.JSON(http.StatusOK, gin.H{})
+	c.JSON(http.StatusCreated, gin.H{})
 }
 
 func Validate(c *gin.Context) {

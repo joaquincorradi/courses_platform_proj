@@ -2,11 +2,14 @@ package model
 
 import "time"
 
-type Courses struct {
+type Course struct {
 	ID          uint   `gorm:"primaryKey"`
 	Title       string `gorm:"type:varchar(50)"`
 	Description string `gorm:"type:varchar(1000)"`
-	Duration    *time.Time
+	FechaInicio time.Time
+	Duracion    time.Duration
 	Rating      uint8 `gorm:"type:int"`
-	Capacity    uint8 `gorm:"type:int"`
+	// Capacity    uint8 `gorm:"type:int"`
 }
+
+type Courses []Course

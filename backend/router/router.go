@@ -17,4 +17,6 @@ func MapUrls(engine *gin.Engine) {
 
 	// CREATE - COURSE
 	engine.POST("/courses/create", courses.CreateCourse)
+	engine.POST("/courses/edition", courses.EditCourse)
+	engine.POST("courses/delete", courses.DeleteCourse)
 }

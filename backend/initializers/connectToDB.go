@@ -1,7 +1,7 @@
 package initializers
 
 import (
-	"backend/database"
+	"backend/model"
 	"os"
 
 	"gorm.io/driver/mysql"
@@ -22,6 +22,6 @@ func ConnectToDB() {
 
 	DB = db
 
-	DB.AutoMigrate(&database.User{})
+	DB.AutoMigrate(&model.User{})
 	// We need to add all CLients that we build
 }
