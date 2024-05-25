@@ -9,3 +9,5 @@ type User struct {
 	Password string `gorm:"unique"`
 	Role     string `gorm:"type:varchar(300)"`
 }
+
+type Users []User

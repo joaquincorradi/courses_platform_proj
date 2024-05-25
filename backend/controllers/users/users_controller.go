@@ -5,8 +5,9 @@ import (
 	"backend/models"
 	"time"
 
-	// usersDomain "backend/model/users"
-	// UsersService "backend/services/users"
+	userDTO "backend/dto"
+	userService "backend/services/users"
+
 	"net/http"
 	"os"
 
@@ -15,6 +16,21 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+func CreateUser(c *gin.Context) {
+	var request userDTO.CreateUserRequest
+
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	response := userService.CreateUserResponse(request)
+	c.JSON(http.StatusCreated, response)
+
+}
+
+/*
 func Signup(c *gin.Context) {
 	var body struct {
 		Email    string
@@ -58,7 +74,7 @@ func Signup(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{})
-}
+}*/
 
 func Login(c *gin.Context) {
 	var body struct {

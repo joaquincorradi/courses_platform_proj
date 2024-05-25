@@ -1,10 +1,10 @@
 package dto
 
-type LoginRequest struct {
+type CreateUserRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-type LoginResponse struct {
-	Token string `json:"token"`
+type CreateUserResponse struct {
+	Message string `json:"message"`
 }
