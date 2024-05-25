@@ -1,11 +1,10 @@
-import Greeting from "./components/Greeting";
-
 import "./App.css";
+import CreateUser from "./components/CreateUser";
 
 function App() {
   return (
     <>
-      <Greeting />
+      <CreateUser />
     </>
   );
 }
