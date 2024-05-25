@@ -3,11 +3,7 @@ package models
 import "time"
 
 type User_Course struct {
-	User    User `gorm:"foreignkey:UserId"`
-	UserId  uint
-	Course  Course `gorm:"foreignkey:CourseId"`
-	CouseId uint
-	Date    time.Time // time.Time es un date
+	UserID   uint      `gorm:"primaryKey"`
+	CourseID uint      `gorm:"primaryKey"`
+	Date     time.Time // time.Time es un date
 }
-
-type Users_Courses []User_Course
