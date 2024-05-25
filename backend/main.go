@@ -3,20 +3,28 @@ package main
 import (
 	"backend/router"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+			c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+			c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+			c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+			c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+			if c.Request.Method == "OPTIONS" {
+					c.AbortWithStatus(204)
+					return
+			}
+
+			c.Next()
+	}
+}
+
 func main() {
 	engine := gin.New() // Crea una nueva instancia de Gin que se almacena en la variable 'engine'. gin.New() crea un nuevo motor Gin
-
-	// Configuración de CORS
-	engine.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:3000"},
-		AllowMethods: []string{"GET", "POST"},
-		AllowHeaders: []string{"Origin", "Content-Type"},
-	}))
-
+	engine.Use(CORSMiddleware()) // Agrega el middleware que se encargará de manejar los CORS
 	router.MapUrls(engine) // Mapea las URLs a las funciones que se encargarán de manejar las request HTTP (controladores)
 	engine.Run(":8080")    // Inicia el servidor web de Gin y le indica que escuche en el puerto 8080
 }
