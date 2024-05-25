@@ -1,4 +1,7 @@
 # Proyecto Final - Arquitectura de Software I
+
+![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white) ![React](https://img.shields.io/badge/react-%2358C4DC.svg?style=for-the-badge&logo=react&logoColor=white) ![TS](https://img.shields.io/badge/typescript-%233178C6.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Bootstrap](https://img.shields.io/badge/bootstrap-%23712CF9.svg?style=for-the-badge&logo=bootstrap&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23FECA23.svg?style=for-the-badge&logo=vite&logoColor=white) ![Axios](https://img.shields.io/badge/axios-%235a29e4.svg?style=for-the-badge&logo=axios&logoColor=white)
+# Integrantes
 [![Seguir](https://img.shields.io/badge/joaquincorradi-%238B5CF6.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/joaquincorradi/) [![Seguir](https://img.shields.io/badge/sanrearte-%238B5CF6.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sanrearte/) [![Seguir](https://img.shields.io/badge/IgnaAltamirano00-%238B5CF6.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/IgnaAltamirano00/)
 
 ## _Introducción_
