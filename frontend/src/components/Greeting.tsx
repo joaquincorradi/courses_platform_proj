@@ -4,7 +4,7 @@ import axios from "axios";
 function Greeting() {
   useEffect(() => {
     axios
-      .get("http://localhost:8080/greet") // Se hace una petición GET al endpoint
+      .get("http://localhost:8080/greet") // Se hace una petición GET al endpoint especificado
       .then((response) => {
         // Manejo de la respuesta
         console.log(response.data); // Se imprime en consola el mensaje recibido
