@@ -64,7 +64,7 @@ func LoginUser(email string, password string) (string, bool, error) {
 	user, err := clients.SelectUserbyEmail(email)
 
 	if err != nil {
-		return "", false, errors.New("error search in database")
+		return "", false, errors.New("error searching in DB")
 	}
 
 	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)) != nil {
@@ -81,7 +81,7 @@ func LoginUser(email string, password string) (string, bool, error) {
 	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
 
 	if err != nil {
-		return "", false, errors.New("error at creating token")
+		return "", false, errors.New("error signing credentials")
 	}
 
 	if user.Role != "admin" {
@@ -90,16 +90,3 @@ func LoginUser(email string, password string) (string, bool, error) {
 		return tokenString, false, nil
 	}
 }
-
-/*func HashPasswd(c *gin.Context, pwd string) []byte {
-	hashed, err := bcrypt.GenerateFromPassword([]byte(pwd), 10)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "ERROR hash password",
-		})
-	}
-
-	return hashed
-}
-*/
