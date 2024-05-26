@@ -16,3 +16,16 @@ func InsertUser(userInsert models.User) error {
 
 	return nil
 }
+
+func SelectUserbyEmail(email string) (models.User, error) {
+
+	var user models.User
+
+	database.DB.First(&user, "email = ?", email)
+
+	if user.ID == 0 {
+		return user, errors.New("user not found")
+	}
+
+	return user, nil
+}
