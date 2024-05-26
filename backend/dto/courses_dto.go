@@ -1,4 +1,4 @@
-package courses
+package dto
 
 type CreateCourseRequest struct {
 	Name     string  `json:"name"`
