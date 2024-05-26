@@ -18,5 +18,5 @@ type LoginUserRequest struct {
 
 type LoginUserResponse struct {
 	Token   string `json:"token"`
-	IsAdmin bool   `json:"message"`
+	IsAdmin bool   `json:"isAdmin"`
 }
