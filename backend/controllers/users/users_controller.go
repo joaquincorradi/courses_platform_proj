@@ -17,13 +17,33 @@ import (
 )
 
 func CreateUser(c *gin.Context) {
+
 	var request userDTO.CreateUserRequest
 
-	if err := c.BindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Invalid request: ": err.Error(),
+		})
 
 		return
 	}
+
+	err := userService.CreateUser(request.Name, request.Lastname, request.Email, request.Password)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Unauthorized login: ": err.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusCreated, userDTO.CreateUserResponse{
+		Message: "User with email " + request.Email + " created succesfully!",
+	})
+}
+
+/*
 
 	hash_password := userService.HashPasswd(c, request.Password)
 
@@ -53,10 +73,7 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	response := userService.CreateUserResponse(request)
-	c.JSON(http.StatusCreated, response)
-
-}
+*/
 
 /*
 func Signup(c *gin.Context) {

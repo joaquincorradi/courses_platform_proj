@@ -11,11 +11,11 @@ import (
 var DB *gorm.DB
 
 func ConnectToDB() {
-	//dsn_s := os.Getenv("DB_S")
-	dsn_i := os.Getenv("DB_I")
+	dsn_s := os.Getenv("DB_S")
+	// dsn_i := os.Getenv("DB_I")
 	// dsn_j := os.Getenv("DB_J")
-	//db, err := gorm.Open(mysql.Open(dsn_s), &gorm.Config{})
-	db, err := gorm.Open(mysql.Open(dsn_i), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn_s), &gorm.Config{})
+	// db, err := gorm.Open(mysql.Open(dsn_i), &gorm.Config{})
 	// db, err := gorm.Open(mysql.Open(dsn_j), &gorm.Config{})
 
 	if err != nil {
