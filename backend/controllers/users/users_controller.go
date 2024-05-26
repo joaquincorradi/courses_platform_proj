@@ -25,6 +25,34 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	hash_password := userService.HashPasswd(c, request.Password)
+
+	// student by default. admins created in advance
+	user := models.User{
+		Name:     request.Name,
+		Lastname: request.Lastname,
+		Email:    request.Email,
+		Password: string(hash_password),
+		Role:     "student",
+	}
+
+	result := database.DB.Create(&user)
+
+	if result.Error != nil {
+		// Primero reviso si el error es porque el email ya esta en la base de datos
+		var user_compare models.User
+		database.DB.First(&user_compare, "email = ?", request.Email)
+		if request.Email == user_compare.Email {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Su email ya esta en uso",
+			})
+			return
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Error al crear el usuario"})
+		}
+		return
+	}
+
 	response := userService.CreateUserResponse(request)
 	c.JSON(http.StatusCreated, response)
 
@@ -32,18 +60,18 @@ func CreateUser(c *gin.Context) {
 
 /*
 func Signup(c *gin.Context) {
-	var body struct {
-		Email    string
-		Password string
-	}
+	// var body struct {
+	// 	Email    string
+	// 	Password string
+	// }
 
-	if c.Bind(&body) != nil { // ver que es el body. Body estruct json
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "ERROR bind body",
-		})
+	// if c.Bind(&body) != nil { // ver que es el body. Body estruct json
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"error": "ERROR bind body",
+	// 	})
 
-		return
-	}
+	// 	return
+	// }
 
 	hash_password, err := bcrypt.GenerateFromPassword([]byte(body.Password), 5) // cambiar a 10 depsues
 
