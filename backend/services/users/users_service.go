@@ -84,7 +84,7 @@ func LoginUser(email string, password string) (string, bool, error) {
 		return "", false, errors.New("error signing credentials")
 	}
 
-	if user.Role != "admin" {
+	if user.Role == "admin" {
 		return tokenString, true, nil
 	} else {
 		return tokenString, false, nil
