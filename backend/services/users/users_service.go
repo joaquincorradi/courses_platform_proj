@@ -2,6 +2,7 @@ package users
 
 import (
 	"backend/clients"
+	userDTO "backend/dto"
 	"backend/models"
 	"errors"
 	"os"
@@ -12,33 +13,33 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func CreateUser(name string, lastName string, email string, password string) error {
-	if strings.TrimSpace(name) == "" {
+func CreateUser(request userDTO.CreateUserRequest) error {
+	if strings.TrimSpace(request.Name) == "" {
 		return errors.New("name is required")
 	}
 
-	if strings.TrimSpace(lastName) == "" {
+	if strings.TrimSpace(request.Lastname) == "" {
 		return errors.New("lastname is required")
 	}
 
-	if strings.TrimSpace(email) == "" {
+	if strings.TrimSpace(request.Email) == "" {
 		return errors.New("email is required")
 	}
 
-	if strings.TrimSpace(password) == "" {
+	if strings.TrimSpace(request.Password) == "" {
 		return errors.New("password is required")
 	}
 
-	hashed, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+	hashed, err := bcrypt.GenerateFromPassword([]byte(request.Password), 10)
 
 	if err != nil {
 		return errors.New("error hashing password")
 	}
 
 	user := models.User{
-		Name:     name,
-		Lastname: lastName,
-		Email:    email,
+		Name:     request.Name,
+		Lastname: request.Lastname,
+		Email:    request.Email,
 		Password: string(hashed),
 		Role:     "student",
 	}
@@ -52,22 +53,22 @@ func CreateUser(name string, lastName string, email string, password string) err
 	return nil
 }
 
-func LoginUser(email string, password string) (string, bool, error) {
-	if strings.TrimSpace(email) == "" {
+func LoginUser(request userDTO.LoginUserRequest) (string, bool, error) {
+	if strings.TrimSpace(request.Email) == "" {
 		return "", false, errors.New("email is required")
 	}
 
-	if strings.TrimSpace(password) == "" {
+	if strings.TrimSpace(request.Password) == "" {
 		return "", false, errors.New("password is required")
 	}
 
-	user, err := clients.SelectUserbyEmail(email)
+	user, err := clients.SelectUserbyEmail(request.Email)
 
 	if err != nil {
 		return "", false, errors.New("error searching in DB")
 	}
 
-	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)) != nil {
+	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)) != nil {
 		return "", false, errors.New("incorrect password")
 	}
 

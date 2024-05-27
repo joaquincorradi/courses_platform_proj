@@ -1,9 +1,12 @@
 package dto
 
 type CreateCourseRequest struct {
-	Name     string  `json:"name"`
-	Price    float64 `json:"price"`
-	Category string  `json:"category"`
+	Title        string `json:"title"`
+	Description  string `json:"description"`
+	Requirements string `json:"requirements"`
+	Rating       string `json:"rating"`
+	CourseImage  string `json:"course_image"`
+	Category     string `json:"category"`
 }
 
 type CreateCourseResponse struct {
