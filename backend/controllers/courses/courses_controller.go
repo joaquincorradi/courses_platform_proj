@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateUser(c *gin.Context) {
+func CreateCourse(c *gin.Context) {
 
 	var request coursesDTO.CreateCourseRequest
 
@@ -20,11 +20,11 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	err := coursesService.CreateCourse(request.Title, request.Description, request.Requirements, request.Rating, request.CourseImage, request.Category)
+	err := coursesService.CreateCourse(request)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"Unauthorized sign-up: ": err.Error(),
+			"Unauthorized request: ": err.Error(),
 		})
 
 		return

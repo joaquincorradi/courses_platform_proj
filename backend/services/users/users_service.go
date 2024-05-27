@@ -42,7 +42,7 @@ func CreateUser(request userDTO.CreateUserRequest) error {
 		Lastname: request.Lastname,
 		Email:    request.Email,
 		Password: string(hashed),
-		Role:     "admin",
+		Role:     "student",
 	}
 
 	err1 := clients.InsertUser(user)
