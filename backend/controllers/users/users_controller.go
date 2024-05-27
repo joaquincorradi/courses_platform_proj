@@ -21,7 +21,7 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	err := userService.CreateUser(request.Name, request.Lastname, request.Email, request.Password)
+	err := userService.CreateUser(request)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -48,7 +48,7 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
-	tokenstring, isadmin, err := userService.LoginUser(request.Email, request.Password)
+	tokenstring, isadmin, err := userService.LoginUser(request)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
