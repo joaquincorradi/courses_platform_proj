@@ -1,19 +1,12 @@
 package users
 
 import (
-	"backend/database"
-	"backend/models"
-	"time"
-
 	userDTO "backend/dto"
 	userService "backend/services/users"
 
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v5"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func CreateUser(c *gin.Context) {
@@ -32,7 +25,7 @@ func CreateUser(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"Unauthorized login: ": err.Error(),
+			"Unauthorized sign-up: ": err.Error(),
 		})
 
 		return
@@ -43,37 +36,32 @@ func CreateUser(c *gin.Context) {
 	})
 }
 
-/*
+func LoginUser(c *gin.Context) {
 
-	hash_password := userService.HashPasswd(c, request.Password)
+	var request userDTO.LoginUserRequest
 
-	// student by default. admins created in advance
-	user := models.User{
-		Name:     request.Name,
-		Lastname: request.Lastname,
-		Email:    request.Email,
-		Password: string(hash_password),
-		Role:     "student",
-	}
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Invalid request: ": err.Error(),
+		})
 
-	result := database.DB.Create(&user)
-
-	if result.Error != nil {
-		// Primero reviso si el error es porque el email ya esta en la base de datos
-		var user_compare models.User
-		database.DB.First(&user_compare, "email = ?", request.Email)
-		if request.Email == user_compare.Email {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "Su email ya esta en uso",
-			})
-			return
-		} else {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Error al crear el usuario"})
-		}
 		return
 	}
 
-*/
+	tokenstring, isadmin, err := userService.LoginUser(request.Email, request.Password)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Unauthorized login: ": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, userDTO.LoginUserResponse{
+		Token:   tokenstring,
+		IsAdmin: isadmin,
+	})
+}
 
 /*
 func Signup(c *gin.Context) {
@@ -120,7 +108,7 @@ func Signup(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{})
 }*/
-
+/*
 func Login(c *gin.Context) {
 	var body struct {
 		Email    string
@@ -179,3 +167,4 @@ func Validate(c *gin.Context) {
 		"message": user,
 	})
 }
+*/

@@ -10,3 +10,13 @@ type CreateUserRequest struct {
 type CreateUserResponse struct {
 	Message string `json:"message"`
 }
+
+type LoginUserRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type LoginUserResponse struct {
+	Token   string `json:"token"`
+	IsAdmin bool   `json:"isAdmin"`
+}
