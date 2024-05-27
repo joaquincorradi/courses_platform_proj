@@ -86,6 +86,10 @@ function Signup() {
           </Form.Group>
         </Row>
 
+        <p className="have-account">
+          ¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a>
+        </p>
+
         <Button variant="primary" type="submit">
           Crear cuenta
         </Button>
