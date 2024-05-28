@@ -7,7 +7,7 @@ type Course struct {
 	Title        string `gorm:"type:varchar(50)"`
 	Description  string `gorm:"type:varchar(1000)"`
 	Requirements string `gorm:"type:varchar(1000)"`
-	StardDate    time.Time
+	StartDate    time.Time
 	EndDate      time.Time
 	Rating       uint8  `gorm:"type:int"`
 	CourseImage  string `gorm:"type:varchar(1000)"`
