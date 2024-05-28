@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Card from "react-bootstrap/Card";
 import { FormGroup } from "react-bootstrap";
 import "./signup.css";
 import Header from "../../components/Header/Header";
@@ -15,6 +14,7 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [response, setResponse] = useState(""); // Almacena la respuesta del servidor
+  const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +29,9 @@ function Signup() {
         setResponse(response.data.message);
       })
       .catch((error) => {
-        console.error("Axios error:", error);
+        console.error(error.response);
+        console.error(error.response.data);
+        setError(error.response.data.message);
       });
   };
 
@@ -93,8 +95,18 @@ function Signup() {
         <Button variant="primary" type="submit">
           Crear cuenta
         </Button>
+
+        {/* Por qué no imprime????????? */}
+        <div>{error && <p style={{ color: "red" }}>{error}</p>}</div>
+
+        <div>
+          {response && (
+            <p style={{ color: "green" }}>
+              {response} Ahora puede <a href="/login">iniciar sesión</a>.
+            </p>
+          )}
+        </div>
       </Form>
-      <Card body>{response}</Card>
     </div>
   );
 }
