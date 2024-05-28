@@ -23,15 +23,17 @@ function Login() {
         window.location.href = "/"; // Redirigir al inicio después de iniciar sesión
       })
       .catch((error) => {
-        setError("Login failed. Please check your credentials and try again.");
-        console.error("Axios error:", error);
+        if (error.response) {
+          setError(error.response.data.error);
+        } else {
+          setError("An error occurred. Please try again.");
+        }
       });
   };
 
   return (
     <div>
       <Header />
-      {error && <p style={{ color: "red" }}>{error}</p>}
       <Form onSubmit={handleSubmit} className="login-form">
         <FormGroup>
           <Form.Label>Ingrese su email:</Form.Label>
@@ -62,6 +64,7 @@ function Login() {
           Iniciar sesión
         </Button>
       </Form>
+      {<p>{error}</p>}
     </div>
   );
 }
