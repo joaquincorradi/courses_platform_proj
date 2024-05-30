@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import { FormGroup } from "react-bootstrap";
 import "./signup.css";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -38,75 +37,86 @@ function Signup() {
   return (
     <div>
       <Header />
-      <Form onSubmit={handleSubmit} className="signup-form">
-        <Row className="mb-3">
-          <FormGroup as={Col} controlId="formGridName">
-            <Form.Label>Ingrese su nombre:</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="John"
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </FormGroup>
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="form-signin">
+          <Form onSubmit={handleSubmit} className="login-form">
+            <a href="/">
+              <img
+                className="mb-4"
+                src="../../public/logo.png"
+                alt=""
+                width="72"
+                height="72"
+              />
+            </a>
+            <h1 className="h3 mb-3 fw-normal">Registrarse</h1>
+            <FloatingLabel controlId="floatingInput" label="Nombre">
+              <Form.Control
+                className="nameSU"
+                type="text"
+                placeholder="John"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </FloatingLabel>
 
-          <FormGroup as={Col} controlId="formGridLastname">
-            <Form.Label>Ingrese su apellido:</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Doe"
-              onChange={(e) => setLastname(e.target.value)}
-              required
-            />
-          </FormGroup>
-        </Row>
+            <FloatingLabel controlId="floatingName" label="Apellido">
+              <Form.Control
+                className="lastnameSU"
+                type="text"
+                placeholder="Doe"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                required
+              />
+            </FloatingLabel>
 
-        <Row className="mb-3">
-          <Form.Group className="mb-3" as={Col} controlId="formGridEmail">
-            <Form.Label>Ingrese su email:</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="me@ejemplo.com"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <Form.Text className="text-muted">
-              Nunca compartiremos su correo con nadie.
-            </Form.Text>
-          </Form.Group>
+            <FloatingLabel controlId="floatingInput" label="Correo electrónico">
+              <Form.Control
+                className="emailSU"
+                type="email"
+                placeholder="nombre@ejemplo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </FloatingLabel>
 
-          <Form.Group className="mb-3" as={Col} controlId="formGridPassword">
-            <Form.Label>Cree una contraseña:</Form.Label>
-            <Form.Control
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <Form.Text className="text-muted">
-              Utilice 8 caracteres como mínimo.
-            </Form.Text>
-          </Form.Group>
-        </Row>
+            <FloatingLabel controlId="floatingPassword" label="Contraseña">
+              <Form.Control
+                className="passSU"
+                type="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </FloatingLabel>
 
-        <p className="have-account">
-          ¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a>
-        </p>
-
-        <Button variant="primary" type="submit">
-          Crear cuenta
-        </Button>
-
-        {/* Por qué no imprime????????? */}
-        <div>{error && <p style={{ color: "red" }}>{error}</p>}</div>
-
-        <div>
-          {response && (
-            <p style={{ color: "green" }}>
-              {response} Ahora puede <a href="/login">iniciar sesión</a>.
+            <p className="have-account">
+              ¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a>
             </p>
-          )}
+
+            <Button className="btn btn-primary w-100 py-2" type="submit">
+              Crear cuenta
+            </Button>
+            <div>{error && <p style={{ color: "red" }}>{error}</p>}</div>
+          </Form>
+
+          {/* Por qué no imprime????????? */}
+          <div>{error && <p style={{ color: "red" }}>{error}</p>}</div>
+
+          <div>
+            {response && (
+              <p style={{ color: "green" }}>
+                {response} Ahora puede <a href="/login">iniciar sesión</a>.
+              </p>
+            )}
+          </div>
         </div>
-      </Form>
+      </div>
+      <Footer />
     </div>
   );
 }

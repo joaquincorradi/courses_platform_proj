@@ -1,14 +1,14 @@
-import "./home.css";
 import Header from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
-function Home() {
+function Dashboard() {
   return (
-    <>
+    <div>
       <Header />
+      <h1>Administrar cursos</h1>
       <Footer />
-    </>
+    </div>
   );
 }
 
-export default Home;
+export default Dashboard;

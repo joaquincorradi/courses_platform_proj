@@ -1,7 +1,33 @@
-.login-form {
-  margin: 10rem 30% 10rem 30%;
+body {
+  height: 80%;
 }
 
 .have-account {
   margin-top: 1rem;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 1rem;
+  margin: auto;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.vh-100 {
+  height: 80vh !important;
 }

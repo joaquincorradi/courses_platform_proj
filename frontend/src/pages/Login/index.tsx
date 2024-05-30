@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./login.css";
-import Header from "../../components/Header/Header";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { FormGroup } from "react-bootstrap";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Header from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 function Login() {
   const [email, setEmail] = useState(""); // Almacenar el email
@@ -41,37 +42,51 @@ function Login() {
   return (
     <div>
       <Header />
-      <Form onSubmit={handleSubmit} className="login-form">
-        <FormGroup>
-          <Form.Label>Ingrese su email:</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="me@ejemplo.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </FormGroup>
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="form-signin">
+          <Form onSubmit={handleSubmit} className="login-form">
+            <a href="/">
+              <img
+                className="mb-4"
+                src="../../public/logo.png"
+                alt=""
+                width="72"
+                height="72"
+              />
+            </a>
+            <h1 className="h3 mb-3 fw-normal">Iniciar sesión</h1>
+            <FloatingLabel controlId="floatingInput" label="Correo electrónico">
+              <Form.Control
+                type="email"
+                placeholder="nombre@ejemplo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </FloatingLabel>
 
-        <FormGroup>
-          <Form.Label>Ingrese su contraseña:</Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </FormGroup>
+            <FloatingLabel controlId="floatingPassword" label="Contraseña">
+              <Form.Control
+                type="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </FloatingLabel>
 
-        <p className="have-account">
-          ¿No tienes una cuenta? <a href="/signup">Regístrate</a>
-        </p>
+            <p className="have-account">
+              ¿No tienes una cuenta? <a href="/signup">Regístrate</a>
+            </p>
 
-        <Button variant="primary" type="submit">
-          Iniciar sesión
-        </Button>
-        <div>{error && <p style={{ color: "red" }}>{error}</p>}</div>
-      </Form>
+            <Button className="btn btn-primary w-100 py-2" type="submit">
+              Iniciar sesión
+            </Button>
+            <div>{error && <p style={{ color: "red" }}>{error}</p>}</div>
+          </Form>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 }

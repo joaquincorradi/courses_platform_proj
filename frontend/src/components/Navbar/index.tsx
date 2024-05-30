@@ -20,13 +20,13 @@ function Header() {
   }, []);
 
   // Función para cerrar sesión
-  const handleLogout = () => {
-    Cookies.remove("token");
-    Cookies.remove("isAdmin");
-    setIsAuthenticated(false);
-    setIsAdmin(false);
-    window.location.href = "/";
-  };
+  // const handleLogout = () => {
+  //   Cookies.remove("token");
+  //   Cookies.remove("isAdmin");
+  //   setIsAuthenticated(false);
+  //   setIsAdmin(false);
+  //   window.location.href = "/";
+  // };
 
   return (
     <div>
@@ -40,16 +40,18 @@ function Header() {
               height="30"
               className="d-inline-block align-top"
             />{" "}
-            Courses Platform
+            Codium
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="/">Inicio</Nav.Link>
               <Nav.Link href="/courses">Cursos</Nav.Link>
-              {isAdmin && <Nav.Link href="/admin">Administrar cursos</Nav.Link>}
+              {isAdmin && (
+                <Nav.Link href="/dashboard">Administrar cursos</Nav.Link>
+              )}
               {!isAdmin && isAuthenticated && (
-                <Nav.Link href="/my-courses">Mis Cursos</Nav.Link>
+                <Nav.Link href="/MyCourses">Mis Cursos</Nav.Link>
               )}
             </Nav>
             <Form className="d-flex">
@@ -65,13 +67,6 @@ function Header() {
                 <>
                   <Button href="/profile" variant="outline-primary">
                     Perfil
-                  </Button>
-                  <Button
-                    onClick={handleLogout}
-                    variant="outline-danger"
-                    className="ms-2"
-                  >
-                    Cerrar sesión
                   </Button>
                 </>
               ) : (
