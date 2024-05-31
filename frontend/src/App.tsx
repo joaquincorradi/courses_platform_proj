@@ -7,6 +7,7 @@ import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import MyCourses from "./pages/MyCourses";
 import Dashboard from "./pages/Dashboard";
+import Results from "./pages/Results";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/mycourses" element={<MyCourses />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/results" element={<Results />} />
+        <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </Router>
   );
