@@ -29,4 +29,25 @@ func CreateCourse(c *gin.Context) {
 
 		return
 	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"Mensaje": "Se creó el curso correctamente",
+	})
+}
+
+func GetCourses(c *gin.Context) {
+
+	courseDTOs, err := coursesService.GetCourses()
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": err,
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"courses": courseDTOs,
+	})
 }

@@ -6,12 +6,25 @@ type CreateCourseRequest struct {
 	Requirements string `json:"requirements"`
 	StartDate    string `json:"start_date"`
 	EndDate      string `json:"end_date"`
-	Rating       uint8  `json:"rating"`
+	Rating       int    `json:"rating"`
 	CourseImage  string `json:"course_image"`
 	Category     string `json:"category"`
-	Capacity     uint64 `json:"capacity"`
+	Capacity     int    `json:"capacity"`
 }
 
 type CreateCourseResponse struct {
 	Message string `json:"message"`
+}
+
+type Course struct {
+	ID           int    `json:"id"`
+	Title        string `json:"title"`
+	Description  string `json:"description"`
+	Requirements string `json:"requirements"`
+	StartDate    string `json:"start_date"`
+	EndDate      string `json:"end_date"`
+	Rating       int    `json:"rating"`
+	CourseImage  string `json:"course_image"`
+	Category     string `json:"category"`
+	Capacity     int    `json:"capacity"`
 }
