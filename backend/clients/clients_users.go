@@ -30,7 +30,7 @@ func SelectUserbyEmail(email string) (models.User, error) {
 	return user, nil
 }
 
-func SelectUserbyID(id interface{}) (models.User, error) { // type interface since we send as argument a claim.
+func SelectUserbyID(id interface{}) (models.User, error) {
 
 	var user models.User
 

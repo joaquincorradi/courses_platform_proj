@@ -1,44 +1,35 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import "./courseCard.css";
 
 interface CourseCardProps {
+  id: number;
   title: string;
   description: string;
   requirements: string;
-  startDate: string;
-  endDate: string;
   rating: number;
-  image: string;
+  courseImage: string;
+  category: string;
 }
 
 function CourseCard({
   title,
   description,
   requirements,
-  startDate,
-  endDate,
   rating,
-  image,
+  courseImage,
+  category,
 }: CourseCardProps) {
   return (
-    <Card style={{ width: "18rem" }}>
-      <Card.Img variant="top" src={image} />
+    <Card className="course-card-config h-100">
+      <Card.Img variant="top" src={courseImage} alt={title} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text>{description}</Card.Text>
-        <Card.Text>
-          <strong>Requerimientos:</strong> {requirements}
-        </Card.Text>
-        <Card.Text>
-          <strong>Fecha de inicio:</strong> {startDate}
-        </Card.Text>
-        <Card.Text>
-          <strong>Fecha de fin:</strong> {endDate}
-        </Card.Text>
-        <Card.Text>
-          <strong>Rating:</strong> {rating}
-        </Card.Text>
-        <Button variant="primary">Ver curso</Button>
+        <Card.Text>Requisitos: {requirements}</Card.Text>
+        <Card.Text>Puntaje: {rating}</Card.Text>
+        <Card.Text>Categoría: {category}</Card.Text>
+        <Button variant="primary">Inscribirse</Button>
       </Card.Body>
     </Card>
   );

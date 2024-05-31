@@ -1,3 +1,8 @@
-h1 {
-  margin-top: 20rem;
+.courses-container {
+  margin-bottom: 10rem;
+}
+
+.title-config {
+  margin-top: 5rem;
+  margin-bottom: 2rem;
 }

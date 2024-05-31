@@ -6,7 +6,6 @@ import (
 	"backend/models"
 	"errors"
 	"strings"
-	"time"
 )
 
 func CreateCourse(request coursesDTO.CreateCourseRequest) error {
@@ -34,18 +33,15 @@ func CreateCourse(request coursesDTO.CreateCourseRequest) error {
 		return errors.New("category is required")
 	}
 
-	start_date, _ := time.Parse("02 Jan 06 15:04 MST", request.StartDate)
-
-	end_date, _ := time.Parse("02 Jan 06 15:04 MST", request.EndDate)
-
 	course := models.Course{
 		Title:        request.Title,
 		Description:  request.Description,
 		Requirements: request.Requirements,
-		StartDate:    start_date,
-		EndDate:      end_date,
+		StartDate:    request.StartDate,
+		EndDate:      request.EndDate,
 		Rating:       request.Rating,
 		CourseImage:  request.CourseImage,
+		Category:     request.Category,
 		Capacity:     request.Capacity,
 	}
 
@@ -57,4 +53,32 @@ func CreateCourse(request coursesDTO.CreateCourseRequest) error {
 
 	return nil
 
+}
+
+func GetCourses() ([]coursesDTO.Course, error) {
+
+	courses, err := clients.SelectCourse()
+
+	if err != nil {
+		return nil, errors.New("error gettin courses from db")
+	}
+
+	var courseDTOs []coursesDTO.Course
+
+	for _, course := range courses {
+		courseDTO := coursesDTO.Course{
+			ID:           course.ID,
+			Title:        course.Title,
+			Description:  course.Description,
+			Requirements: course.Requirements,
+			StartDate:    course.StartDate,
+			EndDate:      course.EndDate,
+			Rating:       course.Rating,
+			CourseImage:  course.CourseImage,
+			Category:     course.Category,
+			Capacity:     course.Capacity,
+		}
+		courseDTOs = append(courseDTOs, courseDTO)
+	}
+	return courseDTOs, nil
 }

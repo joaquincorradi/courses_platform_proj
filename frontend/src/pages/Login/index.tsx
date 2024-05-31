@@ -50,10 +50,9 @@ function Login() {
             <a href="/">
               <img
                 className="mb-4"
-                src="../../public/logo.png"
+                src="../../public/logo_dark.png"
                 alt=""
-                width="72"
-                height="72"
+                width="150"
               />
             </a>
             <h1 className="h3 mb-3 fw-normal">Iniciar sesión</h1>
