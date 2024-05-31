@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Header from "../../components/Navbar";
@@ -10,33 +10,26 @@ function Profile() {
     lastName: "",
     email: "",
   });
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
 
   useEffect(() => {
     const token = Cookies.get("token");
-    if (!token) {
-      setError("No token found");
-      return;
-    }
-
     axios
       .get("http://localhost:8080/users/profile", {
         headers: {
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
         setProfile(response.data);
       })
       .catch((error) => {
-        setError("Failed to fetch profile");
-        console.error("Axios error:", error);
+        console.error("Error fetching profile:", error);
       });
   }, []);
 
   const handleLogout = () => {
     Cookies.remove("token");
-    Cookies.remove("isAdmin");
     window.location.href = "/";
   };
 
@@ -44,15 +37,11 @@ function Profile() {
     <>
       <Header />
       <h2>Profile</h2>
-      {error ? (
-        <p style={{ color: "red" }}>{error}</p>
-      ) : (
-        <div>
-          <p>First Name: {profile.firstName}</p>
-          <p>Last Name: {profile.lastName}</p>
-          <p>Email: {profile.email}</p>
-        </div>
-      )}
+      <div>
+        <p>First Name: {profile.firstName}</p>
+        <p>Last Name: {profile.lastName}</p>
+        <p>Email: {profile.email}</p>
+      </div>
       <Button onClick={handleLogout} variant="outline-danger" className="ms-2">
         Cerrar sesión
       </Button>

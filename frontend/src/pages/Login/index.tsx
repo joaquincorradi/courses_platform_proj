@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+// import { useCookies } from "react-cookie";
 import "./login.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -18,9 +19,10 @@ function Login() {
     axios
       .post("http://localhost:8080/users/login", { email, password })
       .then((response) => {
-        const { token, isAdmin } = response.data;
+        // const { token, isAdmin } = response.data;
+        const { token } = response.data;
         Cookies.set("token", token); // Almacenar el token en una cookie
-        Cookies.set("isAdmin", isAdmin.toString()); // Almacenar si el usuario es admin en una cookie
+        // Cookies.set("isAdmin", isAdmin.toString()); // Almacenar si el usuario es admin en una cookie
         window.location.href = "/"; // Redirigir al inicio después de iniciar sesión
       })
       .catch(function (error) {

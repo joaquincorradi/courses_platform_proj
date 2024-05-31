@@ -1,5 +1,6 @@
 import "./header.css";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Cookies from "js-cookie";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -8,25 +9,47 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 function Header() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Para saber si el usuario está autenticado
-  const [isAdmin, setIsAdmin] = useState(false); // Para saber si el usuario es administrador
+  // const [isAuthenticated, setIsAuthenticated] = useState(false); // Para saber si el usuario está autenticado
+  // const [isAdmin, setIsAdmin] = useState(false); // Para saber si el usuario es administrador
+
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Verificar si el usuario está autenticado y si es administrador
+  // useEffect(() => {
+  //   const token = Cookies.get("token");
+  //   const adminStatus = Cookies.get("isAdmin") === "true";
+  //   setIsAuthenticated(!!token);
+  //   setIsAdmin(adminStatus);
+  // }, []);
+
   useEffect(() => {
     const token = Cookies.get("token");
-    const adminStatus = Cookies.get("isAdmin") === "true";
-    setIsAuthenticated(!!token);
-    setIsAdmin(adminStatus);
+    if (token) {
+      setIsLoggedIn(true);
+      axios
+        .post(
+          "http://localhost:8080/users/validate",
+          { token },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          if (response.data.isAdmin) {
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking admin status:", error);
+        });
+    }
   }, []);
-
-  // Función para cerrar sesión
-  // const handleLogout = () => {
-  //   Cookies.remove("token");
-  //   Cookies.remove("isAdmin");
-  //   setIsAuthenticated(false);
-  //   setIsAdmin(false);
-  //   window.location.href = "/";
-  // };
 
   return (
     <div>
@@ -50,8 +73,13 @@ function Header() {
               {isAdmin && (
                 <Nav.Link href="/dashboard">Administrar cursos</Nav.Link>
               )}
-              {!isAdmin && isAuthenticated && (
-                <Nav.Link href="/MyCourses">Mis Cursos</Nav.Link>
+              {isLoggedIn && (
+                <>
+                  <Nav.Link href={isAdmin ? "/dashboard" : "/mycourses"}>
+                    {isAdmin ? "Administrar cursos" : "Mis cursos"}
+                  </Nav.Link>
+                  <Nav.Link href="/profile">Perfil</Nav.Link>
+                </>
               )}
             </Nav>
             <Form className="d-flex">
@@ -63,13 +91,7 @@ function Header() {
               />
             </Form>
             <Nav className="d-flex, justify-content-around">
-              {isAuthenticated ? (
-                <>
-                  <Button href="/profile" variant="outline-primary">
-                    Perfil
-                  </Button>
-                </>
-              ) : (
+              {!isLoggedIn && (
                 <>
                   <Button href="/login" variant="outline-primary">
                     Iniciar sesión
