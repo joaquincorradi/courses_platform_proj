@@ -16,6 +16,7 @@ func MapUrls(engine *gin.Engine) {
 	engine.POST("/users/validate", usersController.ValidateUser)
 	engine.POST("/courses/create", coursesController.CreateCourse)
 	engine.GET("/courses", coursesController.GetCourses)
+	engine.GET("/courses/search", coursesController.SearchCourse)
 
 	// CREATE - COURSE
 	/*
