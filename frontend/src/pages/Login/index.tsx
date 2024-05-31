@@ -80,12 +80,13 @@ function Login() {
             <p className="have-account">
               ¿No tienes una cuenta? <a href="/signup">Regístrate</a>
             </p>
-
             <Button className="btn btn-primary w-100 py-2" type="submit">
               Iniciar sesión
             </Button>
-            <div>{error && <p style={{ color: "red" }}>{error}</p>}</div>
           </Form>
+          <div className="display-error-message">
+            {error && <p style={{ color: "red" }}>{error}</p>}
+          </div>
         </div>
       </div>
       <Footer />

@@ -58,12 +58,10 @@ function Header() {
           <Navbar.Brand href="/">
             <img
               alt=""
-              src="../../public/logo.png"
-              width="30"
+              src="../../public/logo_dark.png"
               height="30"
               className="d-inline-block align-top"
             />{" "}
-            Codium
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
