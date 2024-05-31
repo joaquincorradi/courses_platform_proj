@@ -25,5 +25,5 @@ type ValidateUserRequest struct {
 }
 
 type ValidateUserResponse struct {
-	Message bool `json:"message"`
+	Message bool `json:"isAdmin"`
 }
