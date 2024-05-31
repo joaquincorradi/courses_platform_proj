@@ -42,7 +42,7 @@ func CreateCourse(request coursesDTO.CreateCourseRequest) error {
 		Title:        request.Title,
 		Description:  request.Description,
 		Requirements: request.Requirements,
-		StardDate:    start_date,
+		StartDate:    start_date,
 		EndDate:      end_date,
 		Rating:       request.Rating,
 		CourseImage:  request.CourseImage,
