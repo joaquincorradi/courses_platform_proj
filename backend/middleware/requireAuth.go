@@ -21,7 +21,6 @@ func RequiereAuth(c *gin.Context) {
 		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
-
 	// Validamos
 	// Parse takes the token string and a function for looking up the key. The latter is especially
 	token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -47,6 +46,10 @@ func RequiereAuth(c *gin.Context) {
 		if user.ID == 0 {
 			c.AbortWithStatus(http.StatusUnauthorized)
 			return
+		}
+
+		if user.Role == "admin" {
+
 		}
 
 		// Lo agregamos con la request

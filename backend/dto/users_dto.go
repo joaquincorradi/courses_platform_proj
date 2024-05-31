@@ -17,6 +17,13 @@ type LoginUserRequest struct {
 }
 
 type LoginUserResponse struct {
-	Token   string `json:"token"`
-	IsAdmin bool   `json:"isAdmin"`
+	Token string `json:"token"`
+}
+
+type ValidateUserRequest struct {
+	Token string `json:"token"`
+}
+
+type ValidateUserResponse struct {
+	Message bool `json:"isAdmin"`
 }

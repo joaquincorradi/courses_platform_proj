@@ -1,16 +1,32 @@
 package courses
 
 import (
-	coursesDomain "backend/model/courses"
+	coursesDTO "backend/dto"
 	coursesService "backend/services/courses"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func CreateCourse(context *gin.Context) {
-	var createCourseRequest coursesDomain.CreateCourseRequest
-	context.BindJSON(&createCourseRequest)
-	response := coursesService.CreateCourse(createCourseRequest)
-	context.JSON(http.StatusCreated, response)
+func CreateCourse(c *gin.Context) {
+
+	var request coursesDTO.CreateCourseRequest
+
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Invalid request: ": err.Error(),
+		})
+
+		return
+	}
+
+	err := coursesService.CreateCourse(request)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Unauthorized request: ": err.Error(),
+		})
+
+		return
+	}
 }

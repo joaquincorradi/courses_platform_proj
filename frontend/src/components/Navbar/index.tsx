@@ -70,15 +70,11 @@ function Header() {
             <Nav className="me-auto">
               <Nav.Link href="/">Inicio</Nav.Link>
               <Nav.Link href="/courses">Cursos</Nav.Link>
-              {isAdmin && (
-                <Nav.Link href="/dashboard">Administrar cursos</Nav.Link>
-              )}
               {isLoggedIn && (
                 <>
                   <Nav.Link href={isAdmin ? "/dashboard" : "/mycourses"}>
                     {isAdmin ? "Administrar cursos" : "Mis cursos"}
                   </Nav.Link>
-                  <Nav.Link href="/profile">Perfil</Nav.Link>
                 </>
               )}
             </Nav>
@@ -91,7 +87,7 @@ function Header() {
               />
             </Form>
             <Nav className="d-flex, justify-content-around">
-              {!isLoggedIn && (
+              {!isLoggedIn ? (
                 <>
                   <Button href="/login" variant="outline-primary">
                     Iniciar sesión
@@ -100,6 +96,10 @@ function Header() {
                     Registrarse
                   </Button>
                 </>
+              ) : (
+                <Button href="/profile" variant="outline-primary">
+                  Perfil
+                </Button>
               )}
             </Nav>
           </Navbar.Collapse>

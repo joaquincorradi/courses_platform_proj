@@ -29,3 +29,16 @@ func SelectUserbyEmail(email string) (models.User, error) {
 
 	return user, nil
 }
+
+func SelectUserbyID(id interface{}) (models.User, error) { // type interface since we send as argument a claim.
+
+	var user models.User
+
+	database.DB.First(&user, id)
+
+	if user.ID == 0 {
+		return user, errors.New("user not found")
+	}
+
+	return user, nil
+}

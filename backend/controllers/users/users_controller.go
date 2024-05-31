@@ -21,7 +21,7 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	err := userService.CreateUser(request.Name, request.Lastname, request.Email, request.Password)
+	err := userService.CreateUser(request)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -39,7 +39,6 @@ func CreateUser(c *gin.Context) {
 func LoginUser(c *gin.Context) {
 
 	var request userDTO.LoginUserRequest
-
 	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"Invalid request: ": err.Error(),
@@ -48,7 +47,7 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
-	tokenstring, isadmin, err := userService.LoginUser(request.Email, request.Password)
+	tokenstring, err := userService.LoginUser(request)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -58,9 +57,42 @@ func LoginUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, userDTO.LoginUserResponse{
-		Token:   tokenstring,
-		IsAdmin: isadmin,
+		Token: tokenstring,
 	})
+}
+
+func ValidateUser(c *gin.Context) {
+	// Obtenemos en token de la request
+
+	var request userDTO.ValidateUserRequest
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Invalid request: ": err.Error(),
+		})
+
+		return
+	}
+
+	validate_role, err := userService.ValidateUser(request)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Unauthorized status: ": err.Error(),
+		})
+		return
+	}
+
+	// Usuario ya validad por tiempo de expiracion. Ahora tenemos si es un admin o no
+	if validate_role {
+		c.JSON(http.StatusCreated, userDTO.ValidateUserResponse{
+			Message: true,
+		})
+	} else {
+		c.JSON(http.StatusCreated, userDTO.ValidateUserResponse{
+			Message: false,
+		})
+	}
+
 }
 
 /*
