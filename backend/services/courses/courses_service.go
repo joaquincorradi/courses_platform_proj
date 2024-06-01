@@ -108,3 +108,14 @@ func Search(query string) ([]coursesDTO.Course, error) {
 	}
 	return courseDTOs, nil
 }
+
+// func SoftDeleteCourse() {}
+
+func DeleteCourse(id int) error {
+	err := clients.DeleteCourse(id)
+	if err != nil {
+		return errors.New("error deleting db")
+	}
+
+	return nil
+}

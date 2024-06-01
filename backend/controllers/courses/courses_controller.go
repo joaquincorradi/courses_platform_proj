@@ -3,6 +3,7 @@ package courses
 import (
 	coursesDTO "backend/dto"
 	coursesService "backend/services/courses"
+	utils "backend/utils"
 	"net/http"
 	"strings"
 
@@ -21,19 +22,34 @@ func CreateCourse(c *gin.Context) {
 		return
 	}
 
-	err := coursesService.CreateCourse(request)
-
+	isadmin, err := utils.ValidateUserRole(request.Token)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"Unauthorized request: ": err.Error(),
+			"Unauthorized login: ": err.Error(),
 		})
-
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
-		"Mensaje": "Se creó el curso correctamente",
-	})
+	if isadmin {
+		err := coursesService.CreateCourse(request)
+
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"Unauthorized request: ": err.Error(),
+			})
+
+			return
+		}
+
+		c.JSON(http.StatusCreated, gin.H{
+			"Mensaje": "Se creó el curso correctamente",
+		})
+	} else {
+		c.JSON(http.StatusCreated, gin.H{
+			"Mensaje": "Error. No eres administrador",
+		})
+	}
+
 }
 
 func GetCourses(c *gin.Context) {
@@ -71,3 +87,67 @@ func SearchCourse(c *gin.Context) {
 		Courses_Filter: courses_filter,
 	})
 }
+
+func DeleteCourse(c *gin.Context) {
+	var request coursesDTO.DeleteCourseRequest
+
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Invalid request: ": err.Error(),
+		})
+		return
+	}
+
+	isadmin, err := utils.ValidateUserRole(request.Token)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Unauthorized login: ": err.Error(),
+		})
+		return
+	}
+
+	if isadmin { // = true
+
+		err := coursesService.DeleteCourse(request.ID)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"Unauthorized login: ": err.Error(),
+			})
+			return
+		}
+
+	} else {
+		// c.JSON(http.StatusUnauthorized, gin.H{ da advertencia. ver
+		// 	"Not ADMIN: ": err.Error(),
+		// })
+		return
+	}
+}
+
+// codigo para softdelete
+//state, err := utils.CheckStateCourse(request.ID)
+// if err != nil {
+// 	c.JSON(http.StatusUnauthorized, gin.H{
+// 		"Unauthorized login: ": err.Error(),
+// 	})
+// 	return
+// }
+
+//if state { // = true
+// err := coursesService.SoftDeleteCourse(request.ID)
+
+// if err != nil {
+// 	c.JSON(http.StatusUnauthorized, gin.H{
+// 		"Unauthorized request: ": err.Error(),
+// 	})
+// 	return
+// }
+
+// c.JSON(http.StatusCreated, gin.H{
+// 	"Mensaje": "Se creó el curso correctamente",
+// })
+//} else {
+// c.JSON(http.StatusOK, gin.H{
+// 	"message": "Curso ya eliminado",
+// })
+//}
