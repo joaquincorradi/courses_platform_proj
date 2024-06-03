@@ -105,23 +105,45 @@ func DeleteCourse(c *gin.Context) {
 		})
 		return
 	}
+	/*
+		if isadmin { // = true
 
-	if isadmin { // = true
+			err := coursesService.DeleteCourse(request.ID)
+			if err != nil {
+				c.JSON(http.StatusUnauthorized, gin.H{
+					"Unauthorized login: ": err.Error(),
+				})
+				return
+			}
 
-		err := coursesService.DeleteCourse(request.ID)
-		if err != nil {
+		} else {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"Unauthorized login: ": err.Error(),
+				"Not ADMIN: ": "No es un administrador",
 			})
 			return
 		}
+	*/
+	if !isadmin {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Error: ": "No es un administrador",
+		})
 
-	} else {
-		// c.JSON(http.StatusUnauthorized, gin.H{ da advertencia. ver
-		// 	"Not ADMIN: ": err.Error(),
-		// })
 		return
 	}
+
+	err1 := coursesService.DeleteCourse(request.ID)
+
+	if err1 != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Error in DB: ": err1.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, coursesDTO.DeleteCourseResponse{
+		Message: "Se borró correctamente",
+	})
 }
 
 // codigo para softdelete

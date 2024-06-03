@@ -1,10 +1,10 @@
 package dto
 
 type InscriptionRequest struct {
-	ID    int
-	Token string
+	ID    int    `json:"id"`
+	Token string `json:"token"`
 }
 
 type InscriptionResponse struct {
-	Message string
+	Message string `json:"message"`
 }

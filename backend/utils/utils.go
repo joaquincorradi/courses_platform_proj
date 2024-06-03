@@ -71,7 +71,7 @@ func GetIdByToken(tokenString string) (int, error) {
 		return 0, errors.New("user not validated")
 	}
 
-	id := claims["sub"].(int)
+	id := int(claims["sub"].(float64))
 	if id == 0 {
 		return 0, errors.New("user not found")
 	}

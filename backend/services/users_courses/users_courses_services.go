@@ -17,6 +17,8 @@ func InscriptionUserCourse(request userxcoursesDTO.InscriptionRequest) error {
 		return errors.New("error finding user")
 	}
 
+	// courseExist(request.ID)
+
 	inscription := models.User_Course{
 		UserID:   id_user,
 		CourseID: request.ID,

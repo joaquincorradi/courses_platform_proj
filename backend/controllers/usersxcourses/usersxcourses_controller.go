@@ -2,7 +2,7 @@ package usersxcourses
 
 import (
 	usersxcoursesDTO "backend/dto"
-	user_controllerService "backend/services/users_courses"
+	user_coursesService "backend/services/users_courses"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,7 +19,8 @@ func InscriptionUserCourse(c *gin.Context) {
 		return
 	}
 
-	err := user_controllerService.InscriptionUserCourse(request)
+	err := user_coursesService.InscriptionUserCourse(request)
+
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"Unauthorized sign-up: ": err.Error(),
@@ -28,7 +29,7 @@ func InscriptionUserCourse(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, usersxcoursesDTO.CreateUserResponse{
+	c.JSON(http.StatusCreated, usersxcoursesDTO.InscriptionResponse{
 		Message: "User inscripted in course succesfully!",
 	})
 
