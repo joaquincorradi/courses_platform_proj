@@ -25,3 +25,16 @@ func SelectCourse() ([]models.Course, error) {
 
 	return courses, nil
 }
+
+func SelectCourseWithFilter(query string) ([]models.Course, error) {
+
+	var courses []models.Course
+
+	result := database.DB.Where("title LIKE ? OR description LIKE ? OR category LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%").Find(&courses)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return courses, nil
+}
