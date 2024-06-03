@@ -4,7 +4,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
@@ -65,14 +64,7 @@ function Header() {
                 </>
               )}
             </Nav>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Buscar..."
-                className="me-2"
-                aria-label="Buscar"
-              />
-            </Form>
+
             <Nav className="d-flex, justify-content-around">
               {!isLoggedIn ? (
                 <>
