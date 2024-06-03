@@ -9,19 +9,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 function Header() {
-  // const [isAuthenticated, setIsAuthenticated] = useState(false); // Para saber si el usuario está autenticado
-  // const [isAdmin, setIsAdmin] = useState(false); // Para saber si el usuario es administrador
-
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // Verificar si el usuario está autenticado y si es administrador
-  // useEffect(() => {
-  //   const token = Cookies.get("token");
-  //   const adminStatus = Cookies.get("isAdmin") === "true";
-  //   setIsAuthenticated(!!token);
-  //   setIsAdmin(adminStatus);
-  // }, []);
 
   useEffect(() => {
     const token = Cookies.get("token");

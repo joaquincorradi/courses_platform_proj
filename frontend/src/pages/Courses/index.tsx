@@ -6,6 +6,7 @@ import CourseCard from "../../components/CourseCard";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Title from "../../components/Title";
 import "./courses.css";
 
 interface Course {
@@ -35,9 +36,7 @@ function Courses() {
   return (
     <Container className="courses-container">
       <Header />
-      <h1 className="display-4 fw-bold text-body-emphasis title-config">
-        Cursos
-      </h1>
+      <Title title="Cursos" />
       <Row className="gy-4 courses-row-config">
         {courses.map((course) => (
           <Col

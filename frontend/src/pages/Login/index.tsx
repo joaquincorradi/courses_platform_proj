@@ -1,28 +1,32 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-// import { useCookies } from "react-cookie";
 import "./login.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import Header from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import { Alert } from "react-bootstrap";
 
 function Login() {
   const [email, setEmail] = useState(""); // Almacenar el email
   const [password, setPassword] = useState(""); // Almacenar la contraseña
   const [error, setError] = useState(""); // Almacenar errores
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault(); // Evitar que el formulario recargue la página
     axios
       .post("http://localhost:8080/users/login", { email, password })
       .then((response) => {
-        // const { token, isAdmin } = response.data;
         const { token } = response.data;
         Cookies.set("token", token); // Almacenar el token en una cookie
-        // Cookies.set("isAdmin", isAdmin.toString()); // Almacenar si el usuario es admin en una cookie
         window.location.href = "/"; // Redirigir al inicio después de iniciar sesión
       })
       .catch(function (error) {
@@ -42,9 +46,13 @@ function Login() {
   };
 
   return (
-    <div>
-      <Header />
-      <div className="d-flex justify-content-center align-items-center vh-100">
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      {loggedIn ? (
+        <Alert variant="info">
+          Ya hay una sesión en curso. Puedes visitar tu perfil{" "}
+          <a href="/profile">aquí</a>
+        </Alert>
+      ) : (
         <div className="form-signin">
           <Form onSubmit={handleSubmit} className="login-form">
             <a href="/">
@@ -79,16 +87,16 @@ function Login() {
             <p className="have-account">
               ¿No tienes una cuenta? <a href="/signup">Regístrate</a>
             </p>
+
             <Button className="btn btn-primary w-100 py-2" type="submit">
               Iniciar sesión
             </Button>
           </Form>
           <div className="display-error-message">
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <Alert variant="danger">{error}</Alert>}
           </div>
         </div>
-      </div>
-      <Footer />
+      )}
     </div>
   );
 }
