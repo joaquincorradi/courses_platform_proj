@@ -9,7 +9,6 @@ import { Alert, Container } from "react-bootstrap";
 
 function Profile() {
   const [error, setError] = useState<string | null>(null);
-
   const [profile, setProfile] = useState({
     first_name: "",
     last_name: "",
@@ -18,16 +17,30 @@ function Profile() {
 
   useEffect(() => {
     const token = Cookies.get("token");
+
+    if (!token) {
+      setError("No token found");
+      return;
+    }
+
+    console.log("Token found: ", token);
+
     axios
-      .get("http://localhost:8080/users/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .post(
+        "http://localhost:8080/users",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
+        console.log("Response data: ", response.data);
         setProfile(response.data);
       })
       .catch((error) => {
+        console.error("Error fetching profile: ", error);
         setError("Error fetching profile: " + error.message);
       });
   }, []);
@@ -45,11 +58,11 @@ function Profile() {
       {error ? (
         <Alert variant="danger">{error}</Alert>
       ) : (
-        <div>
+        <Container>
           <p>Nombre: {profile.first_name}</p>
           <p>Apellido: {profile.last_name}</p>
           <p>Email: {profile.email}</p>
-        </div>
+        </Container>
       )}
 
       <Button onClick={handleLogout} variant="outline-danger" className="ms-2">
