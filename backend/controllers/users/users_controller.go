@@ -94,6 +94,34 @@ func ValidateUser(c *gin.Context) {
 
 }
 
+func GetUser(c *gin.Context) {
+
+	var request userDTO.GetUserRequest
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Invalid request: ": err.Error(),
+		})
+
+		return
+	}
+
+	user, err := userService.GetUser(request.Token)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Unauthorized login: ": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, userDTO.GetUserResponse{
+		Name:     user.Name,
+		Lastname: user.Lastname,
+		Email:    user.Email,
+	})
+
+}
+
 /*
 func Signup(c *gin.Context) {
 	// var body struct {

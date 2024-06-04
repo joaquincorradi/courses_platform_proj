@@ -4,6 +4,7 @@ import (
 	"backend/clients"
 	userDTO "backend/dto"
 	"backend/models"
+	"backend/utils"
 	"errors"
 	"os"
 	"strings"
@@ -87,4 +88,31 @@ func LoginUser(request userDTO.LoginUserRequest) (string, error) {
 	}
 
 	return tokenString, nil
+}
+
+func GetUser(tokenString string) (userDTO.User, error) {
+
+	var userDTOEmpty userDTO.User
+
+	id, err := utils.GetIdByToken(tokenString)
+
+	if err != nil {
+		return userDTOEmpty, errors.New("error getting id by token")
+	}
+
+	userModel, err := clients.SelectUserbyID(id)
+
+	if err != nil {
+		return userDTOEmpty, errors.New("error getting user in DB")
+	}
+
+	userDTO := userDTO.User{
+		Name:     userModel.Name,
+		Lastname: userModel.Lastname,
+		Email:    userModel.Email,
+		Password: userModel.Password,
+		Role:     userModel.Role,
+	}
+
+	return userDTO, nil
 }
