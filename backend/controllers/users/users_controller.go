@@ -3,7 +3,7 @@ package users
 import (
 	userDTO "backend/dto"
 	userService "backend/services/users"
-
+	utils "backend/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -62,7 +62,7 @@ func LoginUser(c *gin.Context) {
 }
 
 func ValidateUser(c *gin.Context) {
-	// Obtenemos en token de la request
+	// usamos utils validateuser
 
 	var request userDTO.ValidateUserRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
@@ -73,17 +73,16 @@ func ValidateUser(c *gin.Context) {
 		return
 	}
 
-	validate_role, err := userService.ValidateUser(request)
-
+	isadmin, err := utils.ValidateUserRole(request.Token)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"Unauthorized status: ": err.Error(),
+			"Unauthorized login: ": err.Error(),
 		})
 		return
 	}
 
 	// Usuario ya validad por tiempo de expiracion. Ahora tenemos si es un admin o no
-	if validate_role {
+	if isadmin {
 		c.JSON(http.StatusCreated, userDTO.ValidateUserResponse{
 			Message: true,
 		})

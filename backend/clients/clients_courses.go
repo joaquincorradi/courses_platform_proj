@@ -38,3 +38,31 @@ func SelectCourseWithFilter(query string) ([]models.Course, error) {
 
 	return courses, nil
 }
+
+func SelectCourseById(id int) (models.Course, error) {
+	var course models.Course
+
+	database.DB.Find(&course, "id = ?", id)
+	if course.ID == 0 {
+		return course, errors.New("course not found")
+	}
+
+	return course, nil
+}
+
+// func SoftDeleteCourse(id int) error {
+// 	course := SelectCourseById(id)
+
+// 	database.DB.
+// }
+
+func DeleteCourse(id int) error {
+	course, err := SelectCourseById(id)
+	if err != nil {
+		return errors.New("course not found")
+	}
+
+	database.DB.Delete(&course, "id = ?", id)
+
+	return nil
+}

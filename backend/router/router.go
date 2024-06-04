@@ -3,25 +3,25 @@ package router
 import (
 	coursesController "backend/controllers/courses"
 	usersController "backend/controllers/users"
+	users_coursesController "backend/controllers/usersxcourses"
 
 	"github.com/gin-gonic/gin"
 )
 
 func MapUrls(engine *gin.Engine) {
 
-	// LOGEO - USER
-
+	//USER
 	engine.POST("/users/signup", usersController.CreateUser)
 	engine.POST("/users/login", usersController.LoginUser) // Se mapea la ruta /users/login al controlador de login
 	engine.POST("/users/validate", usersController.ValidateUser)
+
+	// COURSE
 	engine.POST("/courses/create", coursesController.CreateCourse)
 	engine.GET("/courses", coursesController.GetCourses)
 	engine.GET("/courses/search", coursesController.SearchCourse)
+	engine.POST("courses/delete", coursesController.DeleteCourse)
 
-	// CREATE - COURSE
-	/*
-		engine.POST("/courses/create", courses.CreateCourse)
-		engine.POST("/courses/edition", courses.EditCourse)
-		engine.POST("courses/delete", courses.DeleteCourse)
-	*/
+	// INSCRIPTION
+	engine.POST("users_courses/inscription", users_coursesController.InscriptionUserCourse)
+
 }

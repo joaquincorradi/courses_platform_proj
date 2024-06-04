@@ -7,7 +7,7 @@ interface CourseCardProps {
   title: string;
   description: string;
   requirements: string;
-  rating: number;
+  rating?: number;
   courseImage: string;
   category: string;
 }

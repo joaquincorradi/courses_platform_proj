@@ -5,7 +5,6 @@ import (
 	userDTO "backend/dto"
 	"backend/models"
 	"errors"
-	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -88,45 +87,4 @@ func LoginUser(request userDTO.LoginUserRequest) (string, error) {
 	}
 
 	return tokenString, nil
-}
-
-func ValidateUser(request userDTO.ValidateUserRequest) (bool, error) {
-
-	tokenString := request.Token
-
-	// Parse takes the token string and a function for looking up the key. The latter is especially
-	token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
-
-		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
-		return []byte(os.Getenv("SECRET")), nil
-	})
-
-	if claims, ok := token.Claims.(jwt.MapClaims); ok {
-		// Chequeamos la expiracion (date). Se paso la fecha propuesta. 30 dias
-		if float64(time.Now().Unix()) > claims["exp"].(float64) {
-			return false, errors.New("login Overtime")
-		}
-		// Encontramos al usuario con token id
-
-		user, err := clients.SelectUserbyID(claims["sub"])
-		if err != nil {
-			return false, errors.New("error searching in DB")
-		}
-
-		if user.ID == 0 {
-			return false, errors.New("user not found")
-		}
-
-		if user.Role == "admin" {
-			return true, nil
-		} else {
-			return false, nil
-		}
-
-	} else { // ERROR
-		return false, errors.New("user not found")
-	}
 }

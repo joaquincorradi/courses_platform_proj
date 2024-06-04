@@ -1,6 +1,7 @@
 package dto
 
 type CreateCourseRequest struct {
+	Token        string  `json:"token"`
 	Title        string  `json:"title"`
 	Description  string  `json:"description"`
 	Requirements string  `json:"requirements"`
@@ -33,4 +34,14 @@ type GetCourseResponse struct {
 
 type SearchResponse struct {
 	Courses_Filter []Course `json:"courses"`
+	// State        bool    `json:"state"`
+}
+
+type DeleteCourseRequest struct {
+	Token string `json:"token"`
+	ID    int    `json:"id"`
+}
+
+type DeleteCourseResponse struct {
+	Message string `json:"message"`
 }
