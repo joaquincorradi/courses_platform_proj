@@ -10,8 +10,8 @@ import { Alert, Container } from "react-bootstrap";
 function Profile() {
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState({
-    first_name: "",
-    last_name: "",
+    name: "",
+    lastname: "",
     email: "",
   });
 
@@ -23,18 +23,10 @@ function Profile() {
       return;
     }
 
-    console.log("Token found: ", token);
+    // console.log("Token found: ", token);
 
     axios
-      .post(
-        "http://localhost:8080/users",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .post("http://localhost:8080/users", { token })
       .then((response) => {
         console.log("Response data: ", response.data);
         setProfile(response.data);
@@ -59,8 +51,8 @@ function Profile() {
         <Alert variant="danger">{error}</Alert>
       ) : (
         <Container>
-          <p>Nombre: {profile.first_name}</p>
-          <p>Apellido: {profile.last_name}</p>
+          <p>Nombre: {profile.name}</p>
+          <p>Apellido: {profile.lastname}</p>
           <p>Email: {profile.email}</p>
         </Container>
       )}

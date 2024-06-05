@@ -9,7 +9,7 @@ function Footer() {
         href="/"
         className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
       >
-        <img className="bi me-2" height="25" src="../../public/logo_dark.png" />
+        <img className="bi me-2" height="25" src="/logo_dark.png" />
       </a>
 
       <ul className="nav col-md-4 justify-content-end">

@@ -56,12 +56,7 @@ function Login() {
         <div className="form-signin">
           <Form onSubmit={handleSubmit} className="login-form">
             <a href="/">
-              <img
-                className="mb-4"
-                src="../../public/logo_dark.png"
-                alt=""
-                width="150"
-              />
+              <img className="mb-4" src="/logo_dark.png" alt="" width="150" />
             </a>
             <h1 className="h3 mb-3 fw-normal">Iniciar sesión</h1>
             <FloatingLabel controlId="floatingInput" label="Correo electrónico">

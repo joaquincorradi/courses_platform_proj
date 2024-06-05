@@ -10,6 +10,8 @@ import Navbar from "react-bootstrap/Navbar";
 function Header() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showCourses, setShowCourses] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -39,6 +41,13 @@ function Header() {
     }
   }, []);
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      setShowCourses(true);
+      setShowAdmin(isAdmin);
+    }
+  }, [isLoggedIn, isAdmin]);
+
   return (
     <div>
       <Navbar expand="lg" className="bg-body-tertiary" fixed="top">
@@ -46,7 +55,7 @@ function Header() {
           <Navbar.Brand href="/">
             <img
               alt=""
-              src="../../public/logo_dark.png"
+              src="/logo_dark.png"
               height="30"
               className="d-inline-block align-top"
             />{" "}
@@ -56,29 +65,40 @@ function Header() {
             <Nav className="me-auto">
               <Nav.Link href="/">Inicio</Nav.Link>
               <Nav.Link href="/courses">Cursos</Nav.Link>
-              {isLoggedIn && (
-                <>
-                  <Nav.Link href={isAdmin ? "/dashboard" : "/mycourses"}>
-                    {isAdmin ? "Administrar cursos" : "Mis cursos"}
-                  </Nav.Link>
-                </>
-              )}
             </Nav>
 
-            <Nav className="d-flex, justify-content-around">
-              {!isLoggedIn ? (
+            <Nav>
+              {isLoggedIn ? (
                 <>
-                  <Button href="/login" variant="outline-primary">
+                  <Button
+                    href="/profile"
+                    variant="outline-primary"
+                    className="me-2"
+                  >
+                    Perfil
+                  </Button>
+                  {(showCourses || showAdmin) && (
+                    <Button
+                      href={isAdmin ? "/dashboard" : "/mycourses"}
+                      variant="outline-primary"
+                    >
+                      {isAdmin ? "Administrar cursos" : "Mis cursos"}
+                    </Button>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Button
+                    href="/login"
+                    variant="outline-primary"
+                    className="me-2"
+                  >
                     Iniciar sesión
                   </Button>
-                  <Button href="/signup" variant="primary" className="ms-2">
+                  <Button href="/signup" variant="primary">
                     Registrarse
                   </Button>
                 </>
-              ) : (
-                <Button href="/profile" variant="outline-primary">
-                  Perfil
-                </Button>
               )}
             </Nav>
           </Navbar.Collapse>
