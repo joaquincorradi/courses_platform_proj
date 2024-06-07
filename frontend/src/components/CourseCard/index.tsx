@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Toast from "react-bootstrap/Toast";
+import Badge from "react-bootstrap/Badge";
+import ReactStars from "react-stars";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./courseCard.css";
@@ -59,17 +61,19 @@ function CourseCard({
         })
         .catch((error) => {
           console.log(error);
-          setToastMessage(
-            // "Error al inscribirse: " + error.response?.data?.error ||
-            //   error.message
-            "Ya está inscripto en este curso."
-          );
+          setToastMessage("Ya está inscripto en este curso.");
           setShowToast(true);
         });
     } else {
       window.location.href = "/login";
     }
   };
+
+  const categories = category.split(",").map((cat, index) => (
+    <Badge key={index} pill bg="primary" className="me-1">
+      {cat.trim()}
+    </Badge>
+  ));
 
   return (
     <>
@@ -79,8 +83,17 @@ function CourseCard({
           <Card.Title>{title}</Card.Title>
           <Card.Text>{description}</Card.Text>
           <Card.Text>Requisitos: {requirements}</Card.Text>
-          <Card.Text>Puntaje: {rating}</Card.Text>
-          <Card.Text>Categoría: {category}</Card.Text>
+          <Card.Text>
+            <ReactStars
+              count={5}
+              value={rating}
+              size={24}
+              edit={false}
+              half={true}
+              color2={"#ffd700"}
+            />
+          </Card.Text>
+          <Card.Text>{categories}</Card.Text>
           <Button
             variant="primary"
             onClick={handleEnroll}

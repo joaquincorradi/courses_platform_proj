@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 border-top fixed-bottom footer-config bg-body-tertiary">
+    <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 fixed-bottom footer-config bg-body-tertiary">
       <p className="col-md-4 mb-0 text-body-secondary">
         &copy; 2024 Keep Coding, Inc
       </p>

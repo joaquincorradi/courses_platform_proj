@@ -70,7 +70,7 @@ function Dashboard() {
           size="lg"
           onClick={() => navigate("/createcourse")}
         >
-          Crear Curso
+          Nuevo curso <i className="bi bi-plus-square -lg"></i>
         </Button>
       </div>
       <Row className="gy-4 courses-row-config">

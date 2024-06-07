@@ -5,7 +5,7 @@ function Hero() {
   return (
     <div className="px-4 pt-5 my-5 text-center hero-container">
       <h1 className="display-4 fw-bold text-body-emphasis">
-        Impulsa tu carrera con keep_conding
+        Impulsa tu carrera con keep_coding
       </h1>
       <div className="col-lg-6 mx-auto">
         <p className="lead mb-4">

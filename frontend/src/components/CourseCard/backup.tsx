@@ -1,7 +1,10 @@
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import "./courseCard.css";
+import Toast from "react-bootstrap/Toast";
+import axios from "axios";
 import Cookies from "js-cookie";
+import "./courseCard.css";
 
 interface CourseCardProps {
   id: number;
@@ -14,6 +17,7 @@ interface CourseCardProps {
 }
 
 function CourseCard({
+  id,
   title,
   description,
   requirements,
@@ -22,29 +26,83 @@ function CourseCard({
   category,
 }: CourseCardProps) {
   const token = Cookies.get("token");
+  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
-  const handleButtonClick = () => {
+  useEffect(() => {
     if (token) {
-      alert("Inscripción exitosa");
+      axios
+        .post("http://localhost:8080/users_courses", { token })
+        .then((response) => {
+          const enrolledCourses = response.data.courses;
+          if (
+            enrolledCourses.some((course: { id: number }) => course.id === id)
+          ) {
+            setIsEnrolled(true);
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking enrollment:", error);
+        });
+    }
+  }, [id, token]);
+
+  const handleEnroll = () => {
+    if (token) {
+      axios
+        .post("http://localhost:8080/users_courses/inscription", { token, id })
+        .then(() => {
+          setIsEnrolled(true);
+          setToastMessage("¡Inscripción exitosa!");
+          setShowToast(true);
+        })
+        .catch((error) => {
+          console.log(error);
+          setToastMessage(
+            // "Error al inscribirse: " + error.response?.data?.error ||
+            //   error.message
+            "Ya está inscripto en este curso."
+          );
+          setShowToast(true);
+        });
     } else {
-      window.location.href = `/login`;
+      window.location.href = "/login";
     }
   };
 
   return (
-    <Card className="course-card-config h-100">
-      <Card.Img variant="top" src={courseImage} alt={title} />
-      <Card.Body>
-        <Card.Title>{title}</Card.Title>
-        <Card.Text>{description}</Card.Text>
-        <Card.Text>Requisitos: {requirements}</Card.Text>
-        <Card.Text>Puntaje: {rating}</Card.Text>
-        <Card.Text>Categoría: {category}</Card.Text>
-        <Button variant="primary" onClick={handleButtonClick}>
-          Inscribirse
-        </Button>
-      </Card.Body>
-    </Card>
+    <>
+      <Card className="course-card-config h-100">
+        <Card.Img variant="top" src={courseImage} alt={title} />
+        <Card.Body>
+          <Card.Title>{title}</Card.Title>
+          <Card.Text>{description}</Card.Text>
+          <Card.Text>Requisitos: {requirements}</Card.Text>
+          <Card.Text>Puntaje: {rating}</Card.Text>
+          <Card.Text>Categoría: {category}</Card.Text>
+          <Button
+            variant="primary"
+            onClick={handleEnroll}
+            disabled={isEnrolled}
+          >
+            {isEnrolled ? "Inscripto" : "Inscribirse"}
+          </Button>
+        </Card.Body>
+      </Card>
+      <Toast
+        onClose={() => setShowToast(false)}
+        show={showToast}
+        delay={4000}
+        autohide
+        className="custom-toast position-fixed bottom-0 end-0 m-3"
+      >
+        <Toast.Header>
+          <strong className="me-auto">Notificación</strong>
+        </Toast.Header>
+        <Toast.Body>{toastMessage}</Toast.Body>
+      </Toast>
+    </>
   );
 }
 

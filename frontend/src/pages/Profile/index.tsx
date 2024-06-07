@@ -3,9 +3,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Header from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import Title from "../../components/Title";
 import Button from "react-bootstrap/Button";
-import { Alert, Container } from "react-bootstrap";
+import { Alert, Container, Card, Row, Col } from "react-bootstrap";
+import "./profile.css";
 
 function Profile() {
   const [error, setError] = useState<string | null>(null);
@@ -23,16 +23,12 @@ function Profile() {
       return;
     }
 
-    // console.log("Token found: ", token);
-
     axios
       .post("http://localhost:8080/users", { token })
       .then((response) => {
-        console.log("Response data: ", response.data);
         setProfile(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching profile: ", error);
         setError("Error fetching profile: " + error.message);
       });
   }, []);
@@ -45,21 +41,38 @@ function Profile() {
   return (
     <Container>
       <Header />
-      <Title title="Perfil" />
-
       {error ? (
-        <Alert variant="danger">{error}</Alert>
+        <Alert variant="danger" className="mt-3">
+          {error}
+        </Alert>
       ) : (
-        <Container>
-          <p>Nombre: {profile.name}</p>
-          <p>Apellido: {profile.lastname}</p>
-          <p>Email: {profile.email}</p>
-        </Container>
+        <Row className="justify-content-center mt-5">
+          <Col md={6} className="mt-9">
+            <Card className="profile-card">
+              <Card.Header className="text-center card-title">
+                Información del Perfil
+              </Card.Header>
+              <Card.Body>
+                <Card.Text>
+                  <strong>Nombre:</strong> {profile.name}
+                </Card.Text>
+                <Card.Text>
+                  <strong>Apellido:</strong> {profile.lastname}
+                </Card.Text>
+                <Card.Text>
+                  <strong>Email:</strong> {profile.email}
+                </Card.Text>
+                <div className="d-flex justify-content-center">
+                  <Button onClick={handleLogout} variant="outline-danger">
+                    Cerrar sesión <i className="bi bi-box-arrow-right"></i>
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       )}
 
-      <Button onClick={handleLogout} variant="outline-danger" className="ms-2">
-        Cerrar sesión
-      </Button>
       <Footer />
     </Container>
   );
