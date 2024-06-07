@@ -21,6 +21,7 @@ func MapUrls(engine *gin.Engine) {
 	engine.GET("/courses", coursesController.GetCourses)
 	engine.GET("/courses/search", coursesController.SearchCourse)
 	engine.POST("courses/delete", coursesController.DeleteCourse)
+	engine.GET("/courses/:id", coursesController.ShowCourse)
 
 	// INSCRIPTION
 	engine.POST("users_courses/inscription", users_coursesController.InscriptionUserCourse)
