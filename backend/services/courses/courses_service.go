@@ -5,6 +5,7 @@ import (
 	coursesDTO "backend/dto"
 	"backend/models"
 	"errors"
+	"strconv"
 	"strings"
 )
 
@@ -118,4 +119,33 @@ func DeleteCourse(id int) error {
 	}
 
 	return nil
+}
+
+func ShowCourse(id string) (coursesDTO.Course, error) {
+
+	id_int, err := strconv.Atoi(id)
+
+	if err != nil {
+		return coursesDTO.Course{}, errors.New("error converting id to int")
+	}
+
+	course, err := clients.SelectCourseById(id_int)
+
+	if err != nil {
+		return coursesDTO.Course{}, errors.New("error getting course from DB")
+	}
+
+	courseDTO := coursesDTO.Course{
+		ID:           course.ID,
+		Title:        course.Title,
+		Description:  course.Description,
+		Requirements: course.Requirements,
+		StartDate:    course.StartDate,
+		EndDate:      course.EndDate,
+		Rating:       course.Rating,
+		CourseImage:  course.CourseImage,
+		Category:     course.Category,
+	}
+
+	return courseDTO, nil
 }

@@ -45,3 +45,7 @@ type DeleteCourseRequest struct {
 type DeleteCourseResponse struct {
 	Message string `json:"message"`
 }
+
+type ShowCourseResponse struct {
+	Course Course `json:"course"`
+}
