@@ -146,6 +146,25 @@ func DeleteCourse(c *gin.Context) {
 	})
 }
 
+func ShowCourse(c *gin.Context) {
+
+	id := c.Param("id")
+
+	course, err := coursesService.ShowCourse(id)
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": err.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, coursesDTO.ShowCourseResponse{
+		Course: course,
+	})
+}
+
 // codigo para softdelete
 //state, err := utils.CheckStateCourse(request.ID)
 // if err != nil {
