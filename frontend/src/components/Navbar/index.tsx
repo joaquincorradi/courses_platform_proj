@@ -75,21 +75,14 @@ function Header() {
                     variant="outline-primary"
                     className="me-2"
                   >
-                    Perfil <i className="bi bi-person-circle"></i>
+                    Perfil
                   </Button>
                   {(showCourses || showAdmin) && (
                     <Button
                       href={isAdmin ? "/dashboard" : "/mycourses"}
                       variant="outline-primary"
                     >
-                      {isAdmin ? (
-                        <div>
-                          Administrar cursos{" "}
-                          <i className="bi bi-speedometer2"></i>
-                        </div>
-                      ) : (
-                        "Mis cursos"
-                      )}
+                      {isAdmin ? "Administrar cursos" : "Mis cursos"}
                     </Button>
                   )}
                 </>
