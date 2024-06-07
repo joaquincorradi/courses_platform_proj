@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2986.5 309">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: JetBrainsMonoNerdFontComplete-SemiBold, 'JetBrainsMono Nerd Font';
+        font-size: 284.66px;
+        font-weight: 600;
+      }
+
+      .cls-1, .cls-2 {
+        fill: #000;
+      }
+
+      .cls-2 {
+        stroke-width: 0px;
+      }
+    </style>
+  </defs>
+  <text class="cls-1" transform="translate(.31 247.63)"><tspan x="0" y="0">~ $ keep_conding</tspan></text>
+  <rect class="cls-2" x="2859" y="10" width="114" height="290"/>
+</svg>
