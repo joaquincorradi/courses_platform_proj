@@ -57,7 +57,6 @@ func GetUserCourses(request userxcoursesDTO.GetUserCoursesRequest) ([]userxcours
 			Requirements: course.Requirements,
 			StartDate:    course.StartDate,
 			EndDate:      course.EndDate,
-			Rating:       course.Rating,
 			CourseImage:  course.CourseImage,
 			Category:     course.Category,
 		}
