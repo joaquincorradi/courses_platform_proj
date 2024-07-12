@@ -34,3 +34,30 @@ func InscriptionUserCourse(c *gin.Context) {
 	})
 
 }
+
+func GetUserCourses(c *gin.Context) {
+
+	var request usersxcoursesDTO.GetUserCoursesRequest
+
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Invalid request: ": err.Error(),
+		})
+
+		return
+	}
+
+	courseDTOs, err := user_coursesService.GetUserCourses(request)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Unauthorized request: ": err.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, usersxcoursesDTO.GetUserCoursesResponse{
+		Courses: courseDTOs,
+	})
+}

@@ -22,10 +22,6 @@ func CreateCourse(request coursesDTO.CreateCourseRequest) error {
 		return errors.New("requirements is required")
 	}
 
-	/*if strings.TrimSpace(request.Rating) == "" {
-		return errors.New("rating is required")
-	}*/
-
 	if strings.TrimSpace(request.CourseImage) == "" {
 		return errors.New("courseImage is required")
 	}
@@ -40,7 +36,6 @@ func CreateCourse(request coursesDTO.CreateCourseRequest) error {
 		Requirements: request.Requirements,
 		StartDate:    request.StartDate,
 		EndDate:      request.EndDate,
-		Rating:       request.Rating,
 		CourseImage:  request.CourseImage,
 		Category:     request.Category,
 	}
@@ -73,7 +68,6 @@ func GetCourses() ([]coursesDTO.Course, error) {
 			Requirements: course.Requirements,
 			StartDate:    course.StartDate,
 			EndDate:      course.EndDate,
-			Rating:       course.Rating,
 			CourseImage:  course.CourseImage,
 			Category:     course.Category,
 		}
@@ -102,7 +96,6 @@ func Search(query string) ([]coursesDTO.Course, error) {
 			Requirements: course.Requirements,
 			StartDate:    course.StartDate,
 			EndDate:      course.EndDate,
-			Rating:       course.Rating,
 			CourseImage:  course.CourseImage,
 			Category:     course.Category,
 		})
@@ -142,7 +135,6 @@ func ShowCourse(id string) (coursesDTO.Course, error) {
 		Requirements: course.Requirements,
 		StartDate:    course.StartDate,
 		EndDate:      course.EndDate,
-		Rating:       course.Rating,
 		CourseImage:  course.CourseImage,
 		Category:     course.Category,
 	}

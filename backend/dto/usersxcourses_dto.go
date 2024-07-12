@@ -8,3 +8,11 @@ type InscriptionRequest struct {
 type InscriptionResponse struct {
 	Message string `json:"message"`
 }
+
+type GetUserCoursesRequest struct {
+	Token string `json:"token"`
+}
+
+type GetUserCoursesResponse struct {
+	Courses []Course `json:"courses"`
+}

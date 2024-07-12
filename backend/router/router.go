@@ -25,5 +25,5 @@ func MapUrls(engine *gin.Engine) {
 
 	// INSCRIPTION
 	engine.POST("users_courses/inscription", users_coursesController.InscriptionUserCourse)
-
+	engine.POST("users_courses/my_courses", users_coursesController.GetUserCourses)
 }
