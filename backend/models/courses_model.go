@@ -10,6 +10,5 @@ type Course struct {
 	Rating       float64 `gorm:"type:decimal"`
 	CourseImage  string  `gorm:"type:varchar(1000)"`
 	Category     string  `gorm:"type:varchar(1000)"`
-	//DeletedAt    gorm.DeletedAt
-	Users []User `gorm:"many2many:user_courses;"`
+	Users        []User  `gorm:"many2many:user_courses;"`
 }

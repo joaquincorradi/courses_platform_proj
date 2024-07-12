@@ -32,3 +32,36 @@ func InscriptionUserCourse(request userxcoursesDTO.InscriptionRequest) error {
 
 	return nil
 }
+
+func GetUserCourses(request userxcoursesDTO.GetUserCoursesRequest) ([]userxcoursesDTO.Course, error) {
+
+	id_user, err := utils.GetIdByToken(request.Token)
+
+	if err != nil {
+		return nil, errors.New("error finding user")
+	}
+
+	courses, err := clients.SelectUserCourses(id_user)
+
+	if err != nil {
+		return nil, errors.New("error selecting user courses")
+	}
+
+	var courseDTOs []userxcoursesDTO.Course
+
+	for _, course := range courses {
+		courseDTO := userxcoursesDTO.Course{
+			ID:           course.ID,
+			Title:        course.Title,
+			Description:  course.Description,
+			Requirements: course.Requirements,
+			StartDate:    course.StartDate,
+			EndDate:      course.EndDate,
+			Rating:       course.Rating,
+			CourseImage:  course.CourseImage,
+			Category:     course.Category,
+		}
+		courseDTOs = append(courseDTOs, courseDTO)
+	}
+	return courseDTOs, nil
+}
