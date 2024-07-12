@@ -11,7 +11,6 @@ import (
 )
 
 func CreateCourse(c *gin.Context) {
-
 	var request coursesDTO.CreateCourseRequest
 
 	if err := c.ShouldBindJSON(&request); err != nil {
@@ -53,7 +52,6 @@ func CreateCourse(c *gin.Context) {
 }
 
 func GetCourses(c *gin.Context) {
-
 	courseDTOs, err := coursesService.GetCourses()
 
 	if err != nil {
@@ -64,13 +62,12 @@ func GetCourses(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, coursesDTO.GetCourseResponse{
+	c.JSON(http.StatusOK, coursesDTO.GetCoursesResponse{
 		Courses: courseDTOs,
 	})
 }
 
 func SearchCourse(c *gin.Context) {
-
 	query := strings.TrimSpace(c.Query("q"))
 
 	courses_filter, err := coursesService.Search(query)
@@ -147,7 +144,6 @@ func DeleteCourse(c *gin.Context) {
 }
 
 func ShowCourse(c *gin.Context) {
-
 	id := c.Param("id")
 
 	course, err := coursesService.ShowCourse(id)
@@ -164,31 +160,3 @@ func ShowCourse(c *gin.Context) {
 		Course: course,
 	})
 }
-
-// codigo para softdelete
-//state, err := utils.CheckStateCourse(request.ID)
-// if err != nil {
-// 	c.JSON(http.StatusUnauthorized, gin.H{
-// 		"Unauthorized login: ": err.Error(),
-// 	})
-// 	return
-// }
-
-//if state { // = true
-// err := coursesService.SoftDeleteCourse(request.ID)
-
-// if err != nil {
-// 	c.JSON(http.StatusUnauthorized, gin.H{
-// 		"Unauthorized request: ": err.Error(),
-// 	})
-// 	return
-// }
-
-// c.JSON(http.StatusCreated, gin.H{
-// 	"Mensaje": "Se creó el curso correctamente",
-// })
-//} else {
-// c.JSON(http.StatusOK, gin.H{
-// 	"message": "Curso ya eliminado",
-// })
-//}

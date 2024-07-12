@@ -2,14 +2,14 @@ package users_courses
 
 import (
 	"backend/clients"
-	userxcoursesDTO "backend/dto"
+	usersCoursesDTO "backend/dto"
 	"backend/models"
 	utils "backend/utils"
 	"errors"
 	"time"
 )
 
-func InscriptionUserCourse(request userxcoursesDTO.InscriptionRequest) error {
+func InscriptionUserCourse(request usersCoursesDTO.InscriptionRequest) error {
 	// recibimos el token y el id del curso
 
 	id_user, err := utils.GetIdByToken(request.Token)
@@ -33,7 +33,7 @@ func InscriptionUserCourse(request userxcoursesDTO.InscriptionRequest) error {
 	return nil
 }
 
-func GetUserCourses(request userxcoursesDTO.GetUserCoursesRequest) ([]userxcoursesDTO.Course, error) {
+func GetUserCourses(request usersCoursesDTO.GetUserCoursesRequest) ([]usersCoursesDTO.Course, error) {
 
 	id_user, err := utils.GetIdByToken(request.Token)
 
@@ -47,10 +47,10 @@ func GetUserCourses(request userxcoursesDTO.GetUserCoursesRequest) ([]userxcours
 		return nil, errors.New("error selecting user courses")
 	}
 
-	var courseDTOs []userxcoursesDTO.Course
+	var courseDTOs []usersCoursesDTO.Course
 
 	for _, course := range courses {
-		courseDTO := userxcoursesDTO.Course{
+		courseDTO := usersCoursesDTO.Course{
 			ID:           course.ID,
 			Title:        course.Title,
 			Description:  course.Description,
@@ -63,4 +63,27 @@ func GetUserCourses(request userxcoursesDTO.GetUserCoursesRequest) ([]userxcours
 		courseDTOs = append(courseDTOs, courseDTO)
 	}
 	return courseDTOs, nil
+}
+
+func CreateComment(request usersCoursesDTO.CreateCommentRequest) error {
+	id_user, err := utils.GetIdByToken(request.Token)
+
+	if err != nil {
+		return errors.New("error finding user")
+	}
+
+	comment := models.Feedback{
+		UserID:   id_user,
+		CourseID: request.CourseID,
+		Comment:  request.Comment,
+		Rating:   request.Rating,
+	}
+
+	err1 := clients.InsertComment(comment)
+
+	if err1 != nil {
+		return errors.New("error inserting comment")
+	}
+
+	return nil
 }

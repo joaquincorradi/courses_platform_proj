@@ -7,7 +7,6 @@ import (
 )
 
 func InsertUser(userInsert models.User) error {
-
 	result := database.DB.Create(&userInsert)
 
 	if result.Error != nil {
@@ -18,7 +17,6 @@ func InsertUser(userInsert models.User) error {
 }
 
 func SelectUserbyEmail(email string) (models.User, error) {
-
 	var user models.User
 
 	database.DB.First(&user, "email = ?", email)
@@ -31,7 +29,6 @@ func SelectUserbyEmail(email string) (models.User, error) {
 }
 
 func SelectUserbyID(id interface{}) (models.User, error) {
-
 	var user models.User
 
 	database.DB.First(&user, id)

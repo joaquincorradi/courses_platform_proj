@@ -26,7 +26,7 @@ type Course struct {
 	Category     string `json:"category"`
 }
 
-type GetCourseResponse struct {
+type GetCoursesResponse struct {
 	Courses []Course `json:"courses"`
 }
 

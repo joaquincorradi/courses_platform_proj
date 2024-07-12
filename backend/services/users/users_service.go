@@ -2,7 +2,7 @@ package users
 
 import (
 	"backend/clients"
-	userDTO "backend/dto"
+	usersDTO "backend/dto"
 	"backend/models"
 	"backend/utils"
 	"errors"
@@ -14,7 +14,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func CreateUser(request userDTO.CreateUserRequest) error {
+func CreateUser(request usersDTO.CreateUserRequest) error {
 	if strings.TrimSpace(request.Name) == "" {
 		return errors.New("name is required")
 	}
@@ -54,7 +54,7 @@ func CreateUser(request userDTO.CreateUserRequest) error {
 	return nil
 }
 
-func LoginUser(request userDTO.LoginUserRequest) (string, error) {
+func LoginUser(request usersDTO.LoginUserRequest) (string, error) {
 	if strings.TrimSpace(request.Email) == "" {
 		return "", errors.New("email is required")
 	}
@@ -90,9 +90,9 @@ func LoginUser(request userDTO.LoginUserRequest) (string, error) {
 	return tokenString, nil
 }
 
-func GetUser(tokenString string) (userDTO.User, error) {
+func GetUserByToken(tokenString string) (usersDTO.User, error) {
 
-	var userDTOEmpty userDTO.User
+	var userDTOEmpty usersDTO.User
 
 	id, err := utils.GetIdByToken(tokenString)
 
@@ -106,7 +106,7 @@ func GetUser(tokenString string) (userDTO.User, error) {
 		return userDTOEmpty, errors.New("error getting user in DB")
 	}
 
-	userDTO := userDTO.User{
+	userDTO := usersDTO.User{
 		Name:     userModel.Name,
 		Lastname: userModel.Lastname,
 		Email:    userModel.Email,
