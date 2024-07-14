@@ -46,3 +46,19 @@ type DeleteCourseResponse struct {
 type ShowCourseResponse struct {
 	Course Course `json:"course"`
 }
+
+type UpdateCourseRequest struct {
+	Token        string `json:"token"`
+	ID           int    `json:"id"`
+	Title        string `json:"title"`
+	Description  string `json:"description"`
+	Requirements string `json:"requirements"`
+	StartDate    string `json:"start_date"`
+	EndDate      string `json:"end_date"`
+	CourseImage  string `json:"course_image"`
+	Category     string `json:"category"`
+}
+
+type UpdateCourseResponse struct {
+	Message string `json:"message"`
+}
