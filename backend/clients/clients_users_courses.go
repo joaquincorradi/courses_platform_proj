@@ -19,7 +19,7 @@ func InsertUserandCourse(insert models.User_Course) error {
 func SelectUserCourses(id_user int) ([]models.Course, error) {
 	var courses []models.Course
 
-	result := database.DB.Table("courses").Select("courses.id, courses.title, courses.description, courses.requirements, courses.start_date, courses.end_date").Joins("JOIN user_courses ON courses.id = user_courses.course_id").Where("user_courses.user_id = ?", id_user).Scan(&courses)
+	result := database.DB.Table("courses").Select("courses.id, courses.title, courses.description, courses.requirements, courses.start_date, courses.end_date, courses.course_image, courses.category").Joins("JOIN user_courses ON courses.id = user_courses.course_id").Where("user_courses.user_id = ?", id_user).Scan(&courses)
 
 	if result.Error != nil {
 		return nil, errors.New("error selecting user courses")
