@@ -141,3 +141,44 @@ func ShowCourse(id string) (coursesDTO.Course, error) {
 
 	return courseDTO, nil
 }
+
+func UpdateCourse(request coursesDTO.UpdateCourseRequest) error {
+	if strings.TrimSpace(request.Title) == "" {
+		return errors.New("title is required")
+	}
+
+	if strings.TrimSpace(request.Description) == "" {
+		return errors.New("description is required")
+	}
+
+	if strings.TrimSpace(request.Requirements) == "" {
+		return errors.New("requirements is required")
+	}
+
+	if strings.TrimSpace(request.CourseImage) == "" {
+		return errors.New("courseImage is required")
+	}
+
+	if strings.TrimSpace(request.Category) == "" {
+		return errors.New("category is required")
+	}
+
+	course := models.Course{
+		ID:           request.ID,
+		Title:        request.Title,
+		Description:  request.Description,
+		Requirements: request.Requirements,
+		StartDate:    request.StartDate,
+		EndDate:      request.EndDate,
+		CourseImage:  request.CourseImage,
+		Category:     request.Category,
+	}
+
+	err := clients.UpdateCourse(course)
+
+	if err != nil {
+		return errors.New("error updating course in DB")
+	}
+
+	return nil
+}

@@ -57,3 +57,13 @@ func DeleteCourse(id int) error {
 
 	return nil
 }
+
+func UpdateCourse(course models.Course) error {
+	result := database.DB.Save(&course)
+
+	if result.Error != nil {
+		return errors.New("error updating course")
+	}
+
+	return nil
+}
