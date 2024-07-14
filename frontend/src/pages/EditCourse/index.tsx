@@ -17,7 +17,6 @@ function EditCourse() {
   const [requirements, setRequirements] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [rating, setRating] = useState("");
   const [courseImage, setCourseImage] = useState("");
   const [category, setCategory] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -34,7 +33,6 @@ function EditCourse() {
         setRequirements(course.requirements);
         setStartDate(course.start_date);
         setEndDate(course.end_date);
-        setRating(course.rating);
         setCourseImage(course.course_image);
         setCategory(course.category);
       })
@@ -55,7 +53,6 @@ function EditCourse() {
         requirements,
         start_date: startDate,
         end_date: endDate,
-        rating,
         course_image: courseImage,
         category,
       })
@@ -118,15 +115,6 @@ function EditCourse() {
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="rating">
-          <Form.Label>Puntaje</Form.Label>
-          <Form.Control
-            type="number"
-            value={rating}
-            onChange={(e) => setRating(e.target.value)}
             required
           />
         </Form.Group>

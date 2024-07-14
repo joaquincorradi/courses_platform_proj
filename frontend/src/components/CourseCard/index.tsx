@@ -3,7 +3,6 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Toast from "react-bootstrap/Toast";
 import Badge from "react-bootstrap/Badge";
-import ReactStars from "react-stars";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./courseCard.css";
@@ -13,7 +12,6 @@ interface CourseCardProps {
   title: string;
   description: string;
   requirements: string;
-  rating?: number;
   courseImage: string;
   category: string;
 }
@@ -23,7 +21,6 @@ function CourseCard({
   title,
   description,
   requirements,
-  rating,
   courseImage,
   category,
 }: CourseCardProps) {
@@ -83,16 +80,6 @@ function CourseCard({
           <Card.Title>{title}</Card.Title>
           <Card.Text>{description}</Card.Text>
           <Card.Text>Requisitos: {requirements}</Card.Text>
-          <Card.Text>
-            <ReactStars
-              count={5}
-              value={rating}
-              size={24}
-              edit={false}
-              half={true}
-              color2={"#ffd700"}
-            />
-          </Card.Text>
           <Card.Text>{categories}</Card.Text>
           <Button
             variant="primary"

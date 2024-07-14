@@ -16,7 +16,6 @@ function CreateCourse() {
   const [requirements, setRequirements] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [rating, setRating] = useState("");
   const [courseImage, setCourseImage] = useState("");
   const [category, setCategory] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -34,7 +33,6 @@ function CreateCourse() {
         requirements,
         start_date: startDate,
         end_date: endDate,
-        rating: parseFloat(rating as string), // Convertir string a float
         course_image: courseImage,
         category,
       })
@@ -85,7 +83,7 @@ function CreateCourse() {
         <Form.Group controlId="startDate">
           <Form.Label>Fecha de Inicio</Form.Label>
           <Form.Control
-            type="date"
+            type="text"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             required
@@ -94,18 +92,9 @@ function CreateCourse() {
         <Form.Group controlId="endDate">
           <Form.Label>Fecha de Fin</Form.Label>
           <Form.Control
-            type="date"
+            type="text"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="rating">
-          <Form.Label>Puntaje</Form.Label>
-          <Form.Control
-            type="number"
-            value={rating}
-            onChange={(e) => setRating(e.target.value)}
             required
           />
         </Form.Group>

@@ -18,7 +18,6 @@ interface Course {
   title: string;
   description: string;
   requirements: string;
-  rating: number;
   course_image: string;
   category: string;
 }
@@ -140,7 +139,6 @@ function Courses() {
                 title={course.title}
                 description={course.description}
                 requirements={course.requirements}
-                rating={course.rating}
                 courseImage={course.course_image}
                 category={course.category}
               />

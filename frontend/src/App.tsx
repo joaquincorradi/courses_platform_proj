@@ -22,7 +22,7 @@ function App() {
         <Route path="/mycourses" element={<MyCourses />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/editcourse/:id" element={<EditCourse />} />
-        <Route path="/createcourse" element={<CreateCourse />} />
+        <Route path="/createcourse" element={<CreateCourse />} />"
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </Router>

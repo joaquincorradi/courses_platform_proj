@@ -16,7 +16,6 @@ interface Course {
   title: string;
   description: string;
   requirements: string;
-  rating: number;
   course_image: string;
   category: string;
 }
@@ -30,7 +29,7 @@ function MyCourses() {
   useEffect(() => {
     if (token) {
       axios
-        .post("http://localhost:8080/users_courses", { token })
+        .post("http://localhost:8080/my_courses", { token })
         .then((response) => {
           setCourses(response.data.courses);
         })
@@ -65,7 +64,6 @@ function MyCourses() {
                 title={course.title}
                 description={course.description}
                 requirements={course.requirements}
-                rating={course.rating}
                 courseImage={course.course_image}
                 category={course.category}
               />
