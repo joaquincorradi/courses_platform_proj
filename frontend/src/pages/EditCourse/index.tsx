@@ -103,7 +103,7 @@ function EditCourse() {
         <Form.Group controlId="startDate">
           <Form.Label>Fecha de Inicio</Form.Label>
           <Form.Control
-            type="date"
+            type="text"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             required
@@ -112,7 +112,7 @@ function EditCourse() {
         <Form.Group controlId="endDate">
           <Form.Label>Fecha de Fin</Form.Label>
           <Form.Control
-            type="date"
+            type="text"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             required

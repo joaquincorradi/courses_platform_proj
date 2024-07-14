@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import CourseCard from "../../components/CourseCard";
+import MyCourseCard from "../../components/MyCourseCard";
 import Header from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Title from "../../components/Title";
@@ -65,7 +65,7 @@ function MyCourses() {
               lg={4}
               className="d-flex align-items-stretch"
             >
-              <CourseCard
+              <MyCourseCard
                 id={course.id}
                 title={course.title}
                 description={course.description}
