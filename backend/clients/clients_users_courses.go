@@ -37,3 +37,39 @@ func InsertComment(commentInsert models.Feedback) error {
 
 	return nil
 }
+
+func SelectAverageRating(id_course int) (float64, error) {
+	var averageRating float64
+
+	result := database.DB.Table("feedbacks").Select("AVG(rating)").Where("course_id = ?", id_course).Scan(&averageRating)
+
+	if result.Error != nil {
+		return 0, errors.New("error selecting average rating")
+	}
+
+	return averageRating, nil
+}
+
+func SelectComments(id_course int) ([]models.Feedback, error) {
+	var comments []models.Feedback
+
+	result := database.DB.Table("feedbacks").Where("course_id = ?", id_course).Scan(&comments)
+
+	if result.Error != nil {
+		return nil, errors.New("error selecting comments")
+	}
+
+	return comments, nil
+}
+
+func SelectInscription(id_user, id_course int) (models.User_Course, error) {
+	var inscription models.User_Course
+
+	result := database.DB.Where("user_id = ? AND course_id = ?", id_user, id_course).First(&inscription)
+
+	if result.Error != nil {
+		return models.User_Course{}, errors.New("error selecting inscription")
+	}
+
+	return inscription, nil
+}

@@ -6,7 +6,7 @@ import (
 	"backend/models"
 	utils "backend/utils"
 	"errors"
-	"time"
+	"strconv"
 )
 
 func InscriptionUserCourse(request usersCoursesDTO.InscriptionRequest) error {
@@ -17,12 +17,9 @@ func InscriptionUserCourse(request usersCoursesDTO.InscriptionRequest) error {
 		return errors.New("error finding user")
 	}
 
-	// courseExist(request.ID)
-
 	inscription := models.User_Course{
 		UserID:   id_user,
 		CourseID: request.ID,
-		Date:     time.Now(),
 	}
 
 	err1 := clients.InsertUserandCourse(inscription)
@@ -66,14 +63,22 @@ func GetUserCourses(request usersCoursesDTO.GetUserCoursesRequest) ([]usersCours
 }
 
 func CreateComment(request usersCoursesDTO.CreateCommentRequest) error {
-	id_user, err := utils.GetIdByToken(request.Token)
+
+	id, err := utils.GetIdByToken(request.Token)
 
 	if err != nil {
 		return errors.New("error finding user")
 	}
 
+	check, err := utils.CheckInscription(id, request.CourseID)
+
+	if !check || err != nil {
+		return errors.New("you are not inscripted in this course")
+
+	}
+
 	comment := models.Feedback{
-		UserID:   id_user,
+		UserID:   id,
 		CourseID: request.CourseID,
 		Comment:  request.Comment,
 		Rating:   request.Rating,
@@ -86,4 +91,60 @@ func CreateComment(request usersCoursesDTO.CreateCommentRequest) error {
 	}
 
 	return nil
+}
+
+func GetAverageRating(request usersCoursesDTO.GetAverageRatingRequest) (float64, error) {
+	average, err := clients.SelectAverageRating(request.CourseID)
+
+	if err != nil {
+		return 0, errors.New("error selecting average rating")
+	}
+
+	return average, nil
+}
+
+func GetCourseAndComments(id string) (usersCoursesDTO.Course, []usersCoursesDTO.Feedback, error) {
+
+	id_int, err := strconv.Atoi(id)
+
+	if err != nil {
+		return usersCoursesDTO.Course{}, nil, errors.New("error converting id to int")
+	}
+
+	course, err := clients.SelectCourseById(id_int)
+
+	if err != nil {
+		return usersCoursesDTO.Course{}, nil, errors.New("error selecting course")
+	}
+
+	comments, err := clients.SelectComments(id_int)
+
+	if err != nil {
+		return usersCoursesDTO.Course{}, nil, errors.New("error selecting comments")
+	}
+
+	courseDTO := usersCoursesDTO.Course{
+		ID:           course.ID,
+		Title:        course.Title,
+		Description:  course.Description,
+		Requirements: course.Requirements,
+		StartDate:    course.StartDate,
+		EndDate:      course.EndDate,
+		CourseImage:  course.CourseImage,
+		Category:     course.Category,
+	}
+
+	var commentsDTOs []usersCoursesDTO.Feedback
+
+	for _, comment := range comments {
+		commentDTO := usersCoursesDTO.Feedback{
+			UserID:   comment.UserID,
+			CourseID: comment.CourseID,
+			Comment:  comment.Comment,
+			Rating:   comment.Rating,
+		}
+		commentsDTOs = append(commentsDTOs, commentDTO)
+	}
+
+	return courseDTO, commentsDTOs, nil
 }

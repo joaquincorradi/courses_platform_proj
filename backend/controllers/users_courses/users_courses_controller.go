@@ -85,3 +85,48 @@ func CreateComment(c *gin.Context) {
 		Message: "Comment created succesfully!",
 	})
 }
+
+func GetAverageRating(c *gin.Context) {
+	var request usersCoursesDTO.GetAverageRatingRequest
+
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Invalid request: ": err.Error(),
+		})
+
+		return
+	}
+
+	averageRating, err := usersCoursesService.GetAverageRating(request)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Unauthorized request: ": err.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, usersCoursesDTO.GetAverageRatingResponse{
+		AverageRating: averageRating,
+	})
+}
+
+func GetCourseAndComments(c *gin.Context) {
+	id := c.Param("id")
+
+	courseDTO, commentDTO, err := usersCoursesService.GetCourseAndComments(id)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Unauthorized request: ": err.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, usersCoursesDTO.GetCourseAndCommentsResponse{
+		Course:   courseDTO,
+		Comments: commentDTO,
+	})
+}

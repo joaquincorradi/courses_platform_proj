@@ -76,3 +76,17 @@ func GetIdByToken(tokenString string) (int, error) {
 
 	return id, nil
 }
+
+func CheckInscription(id int, courseID int) (bool, error) {
+
+	inscription, err := clients.SelectInscription(id, courseID)
+	if err != nil {
+		return false, err
+	}
+
+	if inscription.UserID != 0 {
+		return true, nil
+	} else {
+		return false, nil
+	}
+}
