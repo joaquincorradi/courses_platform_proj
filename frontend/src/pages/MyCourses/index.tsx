@@ -58,7 +58,13 @@ function MyCourses() {
       ) : (
         <Row>
           {courses.map((course) => (
-            <Col key={course.id} sm={12} md={6} lg={4} className="mb-4">
+            <Col
+              key={course.id}
+              sm={12}
+              md={6}
+              lg={4}
+              className="d-flex align-items-stretch"
+            >
               <CourseCard
                 id={course.id}
                 title={course.title}

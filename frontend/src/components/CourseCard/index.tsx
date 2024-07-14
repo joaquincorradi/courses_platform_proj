@@ -32,7 +32,7 @@ function CourseCard({
   useEffect(() => {
     if (token) {
       axios
-        .post("http://localhost:8080/users_courses", { token })
+        .post("http://localhost:8080/my_courses", { token })
         .then((response) => {
           const enrolledCourses = response.data.courses;
           if (
@@ -50,7 +50,7 @@ function CourseCard({
   const handleEnroll = () => {
     if (token) {
       axios
-        .post("http://localhost:8080/users_courses/inscription", { token, id })
+        .post("http://localhost:8080/inscription", { token, id })
         .then(() => {
           setIsEnrolled(true);
           setToastMessage("¡Inscripción exitosa!");

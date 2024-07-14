@@ -26,13 +26,12 @@ type Course struct {
 	Category     string `json:"category"`
 }
 
-type GetCourseResponse struct {
+type GetCoursesResponse struct {
 	Courses []Course `json:"courses"`
 }
 
 type SearchResponse struct {
 	Courses_Filter []Course `json:"courses"`
-	// State        bool    `json:"state"`
 }
 
 type DeleteCourseRequest struct {

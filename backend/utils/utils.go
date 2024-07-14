@@ -1,5 +1,3 @@
-// Verificamos autorizacion de logeo. fecha, etc...
-
 package utils
 
 import (
@@ -79,17 +77,16 @@ func GetIdByToken(tokenString string) (int, error) {
 	return id, nil
 }
 
-// func CheckStateCourse(id int) (bool, error) { // verificamos el state del curso
+func CheckInscription(id int, courseID int) (bool, error) {
 
-// 	// tengo id de curso. int.
-// 	course, err := clients.SelectCourseById(id)
-// 	if err != nil {
-// 		return false, errors.New("user not validated")
-// 	}
+	inscription, err := clients.SelectInscription(id, courseID)
+	if err != nil {
+		return false, err
+	}
 
-// 	if course.DeletedAt == nil {
-// 		return true, nil
-// 	} else {
-// 		return false, nil
-// 	}
-// }
+	if inscription.UserID != 0 {
+		return true, nil
+	} else {
+		return false, nil
+	}
+}
