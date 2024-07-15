@@ -1,160 +1,220 @@
-import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Toast from "react-bootstrap/Toast";
+import Card from "react-bootstrap/Card";
+import Badge from "react-bootstrap/Badge";
 import Header from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Title from "../../components/Title";
+import Spinner from "react-bootstrap/Spinner";
+import Alert from "react-bootstrap/Alert";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Toast from "react-bootstrap/Toast";
+import ReactStars from "react-stars";
+import Cookies from "js-cookie";
 
-function EditCourse() {
+interface Comment {
+  user_name: string;
+  comment: string;
+  rating: number;
+}
+
+interface Course {
+  id: number;
+  title: string;
+  description: string;
+  requirements: string;
+  course_image: string;
+  category: string;
+  comments?: Comment[];
+}
+
+function CourseDetails() {
   const { id } = useParams<{ id: string }>();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [requirements, setRequirements] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [courseImage, setCourseImage] = useState("");
-  const [category, setCategory] = useState("");
+  const [course, setCourse] = useState<Course | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [newComment, setNewComment] = useState("");
+  const [newRating, setNewRating] = useState(0);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const navigate = useNavigate();
+  const [toastVariant, setToastVariant] = useState("success");
 
   useEffect(() => {
     axios
       .get(`http://localhost:8080/courses/${id}`)
       .then((response) => {
-        const course = response.data.course;
-        setTitle(course.title);
-        setDescription(course.description);
-        setRequirements(course.requirements);
-        setStartDate(course.start_date);
-        setEndDate(course.end_date);
-        setCourseImage(course.course_image);
-        setCategory(course.category);
+        setCourse(response.data.course);
       })
       .catch((error) => {
-        console.error("Error fetching course:", error);
+        setError("Error fetching course details: " + error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [id]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleCommentSubmit = () => {
     const token = Cookies.get("token");
+
+    if (!token) {
+      setError("No token found");
+      return;
+    }
+
     axios
-      .post("http://localhost:8080/courses/edit", {
+      .post("http://localhost:8080/comments", {
         token,
-        id: Number(id),
-        title,
-        description,
-        requirements,
-        start_date: startDate,
-        end_date: endDate,
-        course_image: courseImage,
-        category,
+        course_id: id,
+        comment: newComment,
+        rating: newRating,
       })
       .then(() => {
-        setToastMessage("Curso editado exitosamente");
+        setToastMessage("Comentario agregado exitosamente");
+        setToastVariant("success");
         setShowToast(true);
-        setTimeout(() => navigate("/dashboard"), 3000);
+        setNewComment("");
+        setNewRating(0);
+        // Recargar comentarios
+        axios
+          .get(`http://localhost:8080/courses/${id}`)
+          .then((response) => {
+            setCourse(response.data.course);
+          })
+          .catch((error) => {
+            setError("Error fetching course details: " + error.message);
+          });
       })
       .catch((error) => {
-        console.error("Error editing course:", error);
-        setToastMessage("Error al editar el curso");
+        setToastMessage("Error al agregar comentario: " + error.message);
+        setToastVariant("danger");
         setShowToast(true);
       });
   };
 
+  if (isLoading) {
+    return (
+      <Container>
+        <Header />
+        <Title title="Detalles del curso" />
+        <Spinner animation="border" variant="primary">
+          <span className="visually-hidden">Cargando...</span>
+        </Spinner>
+        <Footer />
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container>
+        <Header />
+        <Title title="Detalles del curso" />
+        <Alert variant="danger">{error}</Alert>
+        <Footer />
+      </Container>
+    );
+  }
+
+  if (!course) {
+    return (
+      <Container>
+        <Header />
+        <Title title="Detalles del curso" />
+        <Alert variant="danger">No se encontró el curso</Alert>
+        <Footer />
+      </Container>
+    );
+  }
+
+  const categories = course.category
+    ? course.category.split(",").map((cat, index) => (
+        <Badge key={index} pill bg="primary" className="me-1">
+          {cat.trim()}
+        </Badge>
+      ))
+    : null;
+
   return (
-    <Container className="courses-container">
+    <Container>
       <Header />
-      <Title title="Editar Curso" />
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="title">
-          <Form.Label>Título</Form.Label>
-          <Form.Control
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="description">
-          <Form.Label>Descripción</Form.Label>
+      <Title title={course.title} />
+      <Card className="mb-3">
+        <Card.Img variant="top" src={course.course_image} alt={course.title} />
+        <Card.Body>
+          <Card.Title>{course.title}</Card.Title>
+          <Card.Text>{course.description}</Card.Text>
+          <Card.Text>
+            <strong>Requisitos:</strong> {course.requirements}
+          </Card.Text>
+          <Card.Text>
+            <strong>Categorías:</strong> {categories}
+          </Card.Text>
+        </Card.Body>
+      </Card>
+      <Title title="Comentarios" />
+      {course.comments && course.comments.length > 0 ? (
+        course.comments.map((comment, index) => (
+          <Card className="mb-3" key={index}>
+            <Card.Body>
+              <Card.Title>{comment.user_name}</Card.Title>
+              <Card.Text>{comment.comment}</Card.Text>
+              <ReactStars
+                count={5}
+                value={comment.rating}
+                edit={false}
+                size={24}
+                color2={"#ffd700"}
+              />
+            </Card.Body>
+          </Card>
+        ))
+      ) : (
+        <Alert variant="info">No hay comentarios aún.</Alert>
+      )}
+      <Title title="Agregar un comentario" />
+      <Form>
+        <Form.Group className="mb-3" controlId="comment">
+          <Form.Label>Comentario</Form.Label>
           <Form.Control
             as="textarea"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
+            rows={3}
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId="requirements">
-          <Form.Label>Requisitos</Form.Label>
-          <Form.Control
-            type="text"
-            value={requirements}
-            onChange={(e) => setRequirements(e.target.value)}
-            required
+        <Form.Group className="mb-3" controlId="rating">
+          <Form.Label>Rating</Form.Label>
+          <ReactStars
+            count={5}
+            value={newRating}
+            onChange={(newRating) => setNewRating(newRating)}
+            size={24}
+            color2={"#ffd700"}
           />
         </Form.Group>
-        <Form.Group controlId="startDate">
-          <Form.Label>Fecha de Inicio</Form.Label>
-          <Form.Control
-            type="text"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="endDate">
-          <Form.Label>Fecha de Fin</Form.Label>
-          <Form.Control
-            type="text"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="courseImage">
-          <Form.Label>URL de la Imagen</Form.Label>
-          <Form.Control
-            type="text"
-            value={courseImage}
-            onChange={(e) => setCourseImage(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="category">
-          <Form.Label>Categoría</Form.Label>
-          <Form.Control
-            type="text"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit" className="my-3">
-          Editar Curso
+        <Button variant="primary" onClick={handleCommentSubmit}>
+          Enviar comentario
         </Button>
       </Form>
+      <Footer />
       <Toast
         onClose={() => setShowToast(false)}
         show={showToast}
         delay={3000}
         autohide
-        className="custom-toast position-fixed bottom-0 end-0 m-3"
+        bg={toastVariant}
+        className="position-fixed bottom-0 end-0 m-3"
       >
         <Toast.Header>
           <strong className="me-auto">Notificación</strong>
         </Toast.Header>
         <Toast.Body>{toastMessage}</Toast.Body>
       </Toast>
-      <Footer />
     </Container>
   );
 }
 
-export default EditCourse;
+export default CourseDetails;
