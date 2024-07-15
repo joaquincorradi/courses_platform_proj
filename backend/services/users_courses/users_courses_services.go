@@ -136,8 +136,16 @@ func GetCourseAndComments(id string) (usersCoursesDTO.Course, []usersCoursesDTO.
 	var commentsDTOs []usersCoursesDTO.Feedback
 
 	for _, comment := range comments {
+
+		userName, err := clients.SelectUserNamebyID(comment.UserID)
+
+		if err != nil {
+			return usersCoursesDTO.Course{}, nil, errors.New("error selecting user name")
+		}
+
 		commentDTO := usersCoursesDTO.Feedback{
 			UserID:   comment.UserID,
+			UserName: userName,
 			CourseID: comment.CourseID,
 			Comment:  comment.Comment,
 			Rating:   comment.Rating,

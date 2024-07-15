@@ -43,6 +43,7 @@ type GetCourseAndCommentsResponse struct {
 
 type Feedback struct {
 	UserID   int    `json:"user_id"`
+	UserName string `json:"user_name"`
 	CourseID int    `json:"course_id"`
 	Comment  string `json:"comment"`
 	Rating   int    `json:"rating"`
@@ -50,6 +51,7 @@ type Feedback struct {
 
 type File struct {
 	UserID   int    `json:"user_id"`
+	UserName string `json:"user_name"`
 	CourseID int    `json:"course_id"`
 	FileName string `json:"file_name"`
 }
