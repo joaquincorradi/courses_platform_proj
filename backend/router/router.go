@@ -21,7 +21,6 @@ func MapUrls(engine *gin.Engine) {
 	engine.GET("/courses", coursesController.GetCourses)
 	engine.GET("/courses/search", coursesController.SearchCourse)
 	engine.POST("courses/delete", coursesController.DeleteCourse)
-	engine.GET("/courses/:id", usersCoursesController.GetCourseAndComments)
 	engine.POST("/courses/edit", coursesController.UpdateCourse)
 
 	// INSCRIPTION AND MY COURSES
@@ -31,4 +30,11 @@ func MapUrls(engine *gin.Engine) {
 	// COMMENTS AND RATING
 	engine.POST("/comments", usersCoursesController.CreateComment)
 	engine.POST("/comments/rating", usersCoursesController.GetAverageRating)
+
+	engine.GET("/courses/files/:id", usersCoursesController.GetCourseAndCommentsAndFiles)
+	engine.GET("/courses/:id", usersCoursesController.GetCourseAndComments)
+
+	// FILES
+
+	engine.POST("/files", usersCoursesController.CreateFile)
 }

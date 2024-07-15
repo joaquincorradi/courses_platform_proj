@@ -39,3 +39,15 @@ func SelectUserbyID(id interface{}) (models.User, error) {
 
 	return user, nil
 }
+
+func SelectUserNamebyID(id interface{}) (string, error) {
+	var user models.User
+
+	database.DB.First(&user, id)
+
+	if user.ID == 0 {
+		return "", errors.New("user not found")
+	}
+
+	return user.Name, nil
+}

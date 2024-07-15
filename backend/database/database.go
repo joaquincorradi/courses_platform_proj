@@ -29,5 +29,6 @@ func ConnectToDB() {
 		&models.User{},
 		&models.User_Course{},
 		&models.Feedback{},
+		&models.File{},
 	)
 }

@@ -11,3 +11,9 @@ type Feedback struct {
 	Comment  string `gorm:"type:varchar(1000)"`
 	Rating   int
 }
+
+type File struct {
+	UserID   int    `gorm:"primaryKey"`
+	CourseID int    `gorm:"primaryKey"`
+	FileName string `gorm:"type:varchar(1000)"`
+}
