@@ -74,7 +74,6 @@ func CreateComment(request usersCoursesDTO.CreateCommentRequest) error {
 
 	if !check || err != nil {
 		return errors.New("you are not inscripted in this course")
-
 	}
 
 	comment := models.Feedback{
@@ -147,4 +146,96 @@ func GetCourseAndComments(id string) (usersCoursesDTO.Course, []usersCoursesDTO.
 	}
 
 	return courseDTO, commentsDTOs, nil
+}
+
+func GetCourseAndCommentsAndFiles(id string) (usersCoursesDTO.Course, []usersCoursesDTO.Feedback, []usersCoursesDTO.File, error) {
+
+	id_int, err := strconv.Atoi(id)
+
+	if err != nil {
+		return usersCoursesDTO.Course{}, nil, nil, errors.New("error converting id to int")
+	}
+
+	course, err := clients.SelectCourseById(id_int)
+
+	if err != nil {
+		return usersCoursesDTO.Course{}, nil, nil, errors.New("error selecting course")
+	}
+
+	comments, err := clients.SelectComments(id_int)
+
+	if err != nil {
+		return usersCoursesDTO.Course{}, nil, nil, errors.New("error selecting comments")
+	}
+
+	files, err := clients.SelectFiles(id_int)
+
+	if err != nil {
+		return usersCoursesDTO.Course{}, nil, nil, errors.New("error selecting files")
+	}
+
+	courseDTO := usersCoursesDTO.Course{
+		ID:           course.ID,
+		Title:        course.Title,
+		Description:  course.Description,
+		Requirements: course.Requirements,
+		StartDate:    course.StartDate,
+		EndDate:      course.EndDate,
+		CourseImage:  course.CourseImage,
+		Category:     course.Category,
+	}
+
+	var commentsDTOs []usersCoursesDTO.Feedback
+
+	for _, comment := range comments {
+		commentDTO := usersCoursesDTO.Feedback{
+			UserID:   comment.UserID,
+			CourseID: comment.CourseID,
+			Comment:  comment.Comment,
+			Rating:   comment.Rating,
+		}
+		commentsDTOs = append(commentsDTOs, commentDTO)
+	}
+
+	var filesDTOs []usersCoursesDTO.File
+
+	for _, file := range files {
+		fileDTO := usersCoursesDTO.File{
+			UserID:   file.UserID,
+			CourseID: file.CourseID,
+			FileName: file.FileName,
+		}
+		filesDTOs = append(filesDTOs, fileDTO)
+	}
+
+	return courseDTO, commentsDTOs, filesDTOs, nil
+}
+
+func CreateFile(request usersCoursesDTO.CreateFileRequest) error {
+
+	id, err := utils.GetIdByToken(request.Token)
+
+	if err != nil {
+		return errors.New("error finding user")
+	}
+
+	check, err := utils.CheckInscription(id, request.CourseID)
+
+	if !check || err != nil {
+		return errors.New("you are not inscripted in this course")
+	}
+
+	file := models.File{
+		UserID:   id,
+		CourseID: request.CourseID,
+		FileName: request.FileName,
+	}
+
+	err1 := clients.InsertFile(file)
+
+	if err1 != nil {
+		return errors.New("error inserting file")
+	}
+
+	return nil
 }

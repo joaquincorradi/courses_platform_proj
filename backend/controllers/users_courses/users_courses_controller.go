@@ -130,3 +130,49 @@ func GetCourseAndComments(c *gin.Context) {
 		Comments: commentDTO,
 	})
 }
+
+func GetCourseAndCommentsAndFiles(c *gin.Context) {
+	id := c.Param("id")
+
+	courseDTO, commentDTO, fileDTO, err := usersCoursesService.GetCourseAndCommentsAndFiles(id)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Unauthorized request: ": err.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, usersCoursesDTO.GetCourseAndCommentsAndFilesResponse{
+		Course:   courseDTO,
+		Comments: commentDTO,
+		Files:    fileDTO,
+	})
+}
+
+func CreateFile(c *gin.Context) {
+	var request usersCoursesDTO.CreateFileRequest
+
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Invalid request: ": err.Error(),
+		})
+
+		return
+	}
+
+	err := usersCoursesService.CreateFile(request)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"Unauthorized request: ": err.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "File created succesfully!",
+	})
+}

@@ -73,3 +73,25 @@ func SelectInscription(id_user, id_course int) (models.User_Course, error) {
 
 	return inscription, nil
 }
+
+func SelectFiles(id_course int) ([]models.File, error) {
+	var files []models.File
+
+	result := database.DB.Table("files").Where("course_id = ?", id_course).Scan(&files)
+
+	if result.Error != nil {
+		return nil, errors.New("error selecting files")
+	}
+
+	return files, nil
+}
+
+func InsertFile(file models.File) error {
+	result := database.DB.Create(&file)
+
+	if result.Error != nil {
+		return errors.New("error inserting file")
+	}
+
+	return nil
+}

@@ -47,3 +47,25 @@ type Feedback struct {
 	Comment  string `json:"comment"`
 	Rating   int    `json:"rating"`
 }
+
+type File struct {
+	UserID   int    `json:"user_id"`
+	CourseID int    `json:"course_id"`
+	FileName string `json:"file_name"`
+}
+
+type GetCourseAndCommentsAndFilesResponse struct {
+	Course   Course     `json:"course"`
+	Comments []Feedback `json:"comments"`
+	Files    []File     `json:"files"`
+}
+
+type CreateFileRequest struct {
+	Token    string `json:"token"`
+	CourseID int    `json:"course_id"`
+	FileName string `json:"file_name"`
+}
+
+type CreateFileResponse struct {
+	Message string `json:"message"`
+}
