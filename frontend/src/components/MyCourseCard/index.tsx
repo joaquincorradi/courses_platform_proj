@@ -1,10 +1,8 @@
-import axios from "axios";
-import Cookies from "js-cookie";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
+import { useNavigate } from "react-router-dom";
 import "./courseCard.css";
-import { useEffect } from "react";
 
 interface CourseCardProps {
   id: number;
@@ -23,20 +21,15 @@ function MyCourseCard({
   courseImage,
   category,
 }: CourseCardProps) {
+  const navigate = useNavigate();
   const categories = category.split(",").map((cat, index) => (
     <Badge key={index} pill bg="primary" className="me-1">
       {cat.trim()}
     </Badge>
   ));
-  const token = Cookies.get("token");
-
-  useEffect(() => {
-    if (token) {
-    }
-  }, []);
 
   const handleShowDetails = () => {
-    console.log("Show details");
+    navigate(`/courses/${id}`);
   };
 
   return (
