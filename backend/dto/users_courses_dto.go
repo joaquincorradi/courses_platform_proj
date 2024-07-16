@@ -50,11 +50,10 @@ type Feedback struct {
 }
 
 type File struct {
-	UserID    int    `json:"user_id"`
-	UserName  string `json:"user_name"`
-	CourseID  int    `json:"course_id"`
-	FileName  string `json:"file_name"`
-	Extension string `json:"extension"`
+	UserID   int    `json:"user_id"`
+	UserName string `json:"user_name"`
+	CourseID int    `json:"course_id"`
+	FileName string `json:"file_name"`
 }
 
 type GetCourseAndCommentsAndFilesResponse struct {
@@ -64,10 +63,9 @@ type GetCourseAndCommentsAndFilesResponse struct {
 }
 
 type CreateFileRequest struct {
-	Token     string `json:"token"`
-	CourseID  int    `json:"course_id"`
-	FileName  string `json:"file_name"`
-	Extension string `json:"extension"`
+	Token    string `json:"token"`
+	CourseID int    `json:"course_id"`
+	FileName string `json:"file_name"`
 }
 
 type CreateFileResponse struct {
