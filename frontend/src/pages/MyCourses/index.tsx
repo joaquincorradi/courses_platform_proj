@@ -46,7 +46,7 @@ function MyCourses() {
   }, [token]);
 
   return (
-    <Container>
+    <Container className="courses-container">
       <Header />
       <Title title="Mis cursos" />
       {isLoading ? (
@@ -56,7 +56,7 @@ function MyCourses() {
       ) : error ? (
         <Alert variant="danger">{error}</Alert>
       ) : (
-        <Row>
+        <Row className="gy-4 courses-row-config">
           {courses.map((course) => (
             <Col
               key={course.id}
