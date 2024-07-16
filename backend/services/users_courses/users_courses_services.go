@@ -196,8 +196,16 @@ func GetCourseAndCommentsAndFiles(id string) (usersCoursesDTO.Course, []usersCou
 	var commentsDTOs []usersCoursesDTO.Feedback
 
 	for _, comment := range comments {
+
+		userNameComment, err := clients.SelectUserNamebyID(comment.UserID)
+
+		if err != nil {
+			return usersCoursesDTO.Course{}, nil, nil, errors.New("error selecting user name")
+		}
+
 		commentDTO := usersCoursesDTO.Feedback{
 			UserID:   comment.UserID,
+			UserName: userNameComment,
 			CourseID: comment.CourseID,
 			Comment:  comment.Comment,
 			Rating:   comment.Rating,
@@ -208,10 +216,19 @@ func GetCourseAndCommentsAndFiles(id string) (usersCoursesDTO.Course, []usersCou
 	var filesDTOs []usersCoursesDTO.File
 
 	for _, file := range files {
+
+		userNameFile, err := clients.SelectUserNamebyID(file.UserID)
+
+		if err != nil {
+			return usersCoursesDTO.Course{}, nil, nil, errors.New("error selecting user name")
+		}
+
 		fileDTO := usersCoursesDTO.File{
-			UserID:   file.UserID,
-			CourseID: file.CourseID,
-			FileName: file.FileName,
+			UserID:    file.UserID,
+			UserName:  userNameFile,
+			CourseID:  file.CourseID,
+			FileName:  file.FileName,
+			Extension: file.Extension,
 		}
 		filesDTOs = append(filesDTOs, fileDTO)
 	}
