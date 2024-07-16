@@ -1,0 +1,9 @@
+.course-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.custom-toast {
+  z-index: 1050;
+}

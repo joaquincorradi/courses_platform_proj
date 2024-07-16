@@ -13,7 +13,10 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Toast from "react-bootstrap/Toast";
 import ReactStars from "react-stars";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Cookies from "js-cookie";
+import "./courseDetails.css";
 
 interface Comment {
   user_name: string;
@@ -143,17 +146,28 @@ function CourseDetails() {
       <Header />
       <Title title={course.title} />
       <Card className="mb-3">
-        <Card.Img variant="top" src={course.course_image} alt={course.title} />
-        <Card.Body>
-          <Card.Title>{course.title}</Card.Title>
-          <Card.Text>{course.description}</Card.Text>
-          <Card.Text>
-            <strong>Requisitos:</strong> {course.requirements}
-          </Card.Text>
-          <Card.Text>
-            <strong>Categorías:</strong> {categories}
-          </Card.Text>
-        </Card.Body>
+        <Row>
+          <Col md={4}>
+            <Card.Img
+              variant="top"
+              src={course.course_image}
+              alt={course.title}
+              className="course-image"
+            />
+          </Col>
+          <Col md={8}>
+            <Card.Body>
+              <Card.Title>{course.title}</Card.Title>
+              <Card.Text>{course.description}</Card.Text>
+              <Card.Text>
+                <strong>Requisitos:</strong> {course.requirements}
+              </Card.Text>
+              <Card.Text>
+                <strong>Categorías:</strong> {categories}
+              </Card.Text>
+            </Card.Body>
+          </Col>
+        </Row>
       </Card>
       <Title title="Comentarios" />
       {comments && comments.length > 0 ? (
@@ -184,6 +198,7 @@ function CourseDetails() {
             rows={3}
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="rating">
@@ -194,6 +209,7 @@ function CourseDetails() {
             onChange={(newRating) => setNewRating(newRating)}
             size={24}
             color2={"#ffd700"}
+            half={false}
           />
         </Form.Group>
         <Button variant="primary" onClick={handleCommentSubmit}>
