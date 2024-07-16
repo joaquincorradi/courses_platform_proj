@@ -41,6 +41,7 @@ function CourseDetails() {
   const [error, setError] = useState<string | null>(null);
   const [newComment, setNewComment] = useState("");
   const [newRating, setNewRating] = useState(0);
+  const [averageRating, setAverageRating] = useState<number | null>(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
@@ -60,6 +61,21 @@ function CourseDetails() {
       });
   }, [id]);
 
+  const fetchAverageRating = () => {
+    axios
+      .post(`http://localhost:8080/comments/rating`, { course_id: Number(id) })
+      .then((response) => {
+        setAverageRating(response.data.average_rating);
+      })
+      .catch((error) => {
+        console.error("Error fetching average rating: " + error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchAverageRating();
+  }, [id]);
+
   const handleCommentSubmit = () => {
     const token = Cookies.get("token");
 
@@ -71,21 +87,22 @@ function CourseDetails() {
     axios
       .post("http://localhost:8080/comments", {
         token,
-        course_id: Number(id), // Convertir el id a un número
+        course_id: Number(id),
         comment: newComment,
-        rating: newRating,
+        rating: newRating || 0,
       })
       .then(() => {
         setToastMessage("Comentario agregado exitosamente");
         setShowToast(true);
         setNewComment("");
         setNewRating(0);
-        // Recargar comentarios
+        // Recargar comentarios y actualizar el rating
         axios
           .get(`http://localhost:8080/courses/${id}`)
           .then((response) => {
             const { comments } = response.data;
             setComments(comments);
+            fetchAverageRating();
           })
           .catch((error) => {
             setError("Error fetching course details: " + error.message);
@@ -165,6 +182,25 @@ function CourseDetails() {
               <Card.Text>
                 <strong>Categorías:</strong> {categories}
               </Card.Text>
+              <Card.Text>
+                {averageRating !== null ? (
+                  <ReactStars
+                    count={5}
+                    value={averageRating}
+                    edit={false}
+                    size={40}
+                    color2={"#ffd700"}
+                  />
+                ) : (
+                  <ReactStars
+                    count={5}
+                    value={0}
+                    edit={false}
+                    size={40}
+                    color2={"#ffd700"}
+                  />
+                )}
+              </Card.Text>
             </Card.Body>
           </Col>
         </Row>
@@ -198,7 +234,6 @@ function CourseDetails() {
             rows={3}
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="rating">
@@ -207,7 +242,7 @@ function CourseDetails() {
             count={5}
             value={newRating}
             onChange={(newRating) => setNewRating(newRating)}
-            size={24}
+            size={30}
             color2={"#ffd700"}
             half={false}
           />
