@@ -13,7 +13,8 @@ type Feedback struct {
 }
 
 type File struct {
-	UserID   int    `gorm:"primaryKey"`
-	CourseID int    `gorm:"primaryKey"`
+	ID       int `gorm:"primaryKey"`
+	UserID   int
+	CourseID int
 	FileName string `gorm:"type:varchar(1000)"`
 }
