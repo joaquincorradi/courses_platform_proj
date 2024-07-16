@@ -1,0 +1,14 @@
+USE courses_platform_proj;
+
+INSERT INTO courses_platform_proj.courses (title, description, requirements, course_image, category)
+VALUES 
+('GOLANG: Curso profesional de Go - De cero a Master', 'Aprende lenguaje de Go, Desarrollo Web con Go, Manejo de HTML, CSS, API RESTful com MySQL y ORM con Go',  'No hay prerequisitos para este curso. Todo lo que necesita es una computadora y una conexión a Internet.', 'https://img-c.udemycdn.com/course/240x135/5652172_fc8b.jpg', 'go, api, web, backend'),
+('Desarrollo web ultra rápido con Astro', 'Aprender a usar astro para crear sitios web integrando otras herramientas como React, Svelte o Vue', 'Conocimiento básico en javascript, conocimiento básico en html y conocimiento básico en CSS.', 'https://img-c.udemycdn.com/course/240x135/4902868_1f01_2.jpg', 'astro, web, frontend'),
+('Flutter - Móvil: De cero a experto', 'Aprender Dart para utilizarlo cómodamente en Flutter', 'Es necesario tener conceptos de programación estructurada y orientada a objetos.', 'https://img-c.udemycdn.com/course/240x135/5432224_3925_2.jpg', 'flutter, dart, ios ,android, app'),
+('Vue.js: De cero a experto', 'Aprender Vue 3 a profundidad', 'Conocimiento de JavaScript básico.', 'https://img-c.udemycdn.com/course/240x135/1671968_f525_7.jpg', 'vuejs, javascript'),
+('Desarrollo de apps para iOS con SwiftUI y UIKit', 'Aprende a crear apps para iOS 14, iOS 15, iOS 16 y ahora con iOS 17 con SwiftUI, Swift 5.7 y aplicando MVVM', 'Tener un iMac, MacBook o Mac Mini.', 'https://img-c.udemycdn.com/course/240x135/2322020_af89.jpg', 'ios, swift'),
+('Curso de C++: Básico a Avanzado', 'Curso diseñado para principiantes o estudiantes universitarios sin conocimientos previos del lenguaje.',  'Code::Blocks IDE', 'https://img-c.udemycdn.com/course/240x135/763172_d61c_4.jpg', 'cpp, programacion'),
+('TypeScript: Tu completa guía y manual de mano', 'La base sólida que necesitas para trabajar con TypeScript', 'Conocimiento básico de JavaScript', 'https://img-c.udemycdn.com/course/240x135/947098_02ec_2.jpg', 'typescript, javascript, frontend'),
+('MongoDB: Fundamentos de las bases de datos NoSQL', 'Vuelvete un experto en Bases de Datos no relacionales aprendiendo de una manera fácil y sencilla.', 'Conocimientos básicos de programación y lógica de programación.', 'https://img-c.udemycdn.com/course/240x135/5107788_2735_2.jpg', 'mongodb, base de datos, nosql'),
+('UI con Figma de principiante a profesional', 'Aprende diseño web responsive con Figma en este curso 100% práctico. Realiza un proyecto impresionante para tu portfolio.', 'No se necesita experiencia previa.', 'https://img-c.udemycdn.com/course/240x135/5053842_9739_5.jpg', 'figma, ui'),
+('Kubernetes, de principiante a experto', 'Conviértete en un Kubernetes Máster dominando la herramienta más popular para administrar contenedores Docker.', 'Debes comprender cómo funciona Docker.', 'https://img-c.udemycdn.com/course/240x135/2428872_5fbb.jpg', 'kubernetes, docker, devops');
