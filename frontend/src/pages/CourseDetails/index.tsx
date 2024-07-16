@@ -327,10 +327,8 @@ function CourseDetails() {
           <Card className="mb-3" key={index}>
             <Card.Body>
               <Card.Title>{file.user_name}</Card.Title>
-              {/* <Card.Text> {file.file_name}</Card.Text> */}
               <Card.Text>
-                {getFileIcon(file.file_name)}
-                {file.file_name}
+                {getFileIcon(file.file_name)} {" " + file.file_name}
               </Card.Text>
             </Card.Body>
           </Card>
