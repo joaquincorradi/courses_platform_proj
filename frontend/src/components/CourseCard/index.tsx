@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -24,6 +25,7 @@ function CourseCard({
   courseImage,
   category,
 }: CourseCardProps) {
+  const navigate = useNavigate();
   const token = Cookies.get("token");
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -66,6 +68,10 @@ function CourseCard({
     }
   };
 
+  const handleShowDetails = () => {
+    navigate(`/courses/${id}`);
+  };
+
   const categories = category.split(",").map((cat, index) => (
     <Badge key={index} pill bg="primary" className="me-1">
       {cat.trim()}
@@ -81,13 +87,18 @@ function CourseCard({
           <Card.Text>{description}</Card.Text>
           <Card.Text>Requisitos: {requirements}</Card.Text>
           <Card.Text>{categories}</Card.Text>
-          <Button
-            variant="primary"
-            onClick={handleEnroll}
-            disabled={isEnrolled}
-          >
-            {isEnrolled ? "Inscripto" : "Inscribirse"}
-          </Button>
+          <div className="d-grid gap-2">
+            <Button
+              variant="primary"
+              onClick={handleEnroll}
+              disabled={isEnrolled}
+            >
+              {isEnrolled ? "Inscripto" : "Inscribirse"}
+            </Button>
+            <Button variant="outline-primary" onClick={handleShowDetails}>
+              Mostrar detalles
+            </Button>
+          </div>
         </Card.Body>
       </Card>
       <Toast
