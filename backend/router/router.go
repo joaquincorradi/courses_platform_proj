@@ -31,8 +31,7 @@ func MapUrls(engine *gin.Engine) {
 	engine.POST("/comments", usersCoursesController.CreateComment)
 	engine.POST("/comments/rating", usersCoursesController.GetAverageRating)
 
-	engine.GET("/courses/files/:id", usersCoursesController.GetCourseAndCommentsAndFiles)
-	engine.GET("/courses/:id", usersCoursesController.GetCourseAndComments)
+	engine.GET("/courses/:id", usersCoursesController.GetCourseAndCommentsAndFiles)
 
 	// FILES
 
