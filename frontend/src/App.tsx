@@ -9,6 +9,7 @@ import MyCourses from "./pages/MyCourses";
 import Dashboard from "./pages/Dashboard";
 import EditCourse from "./pages/EditCourse";
 import CreateCourse from "./pages/CreateCourse";
+import CourseDetails from "./pages/CourseDetails";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
         <Route path="/mycourses" element={<MyCourses />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/editcourse/:id" element={<EditCourse />} />
-        <Route path="/createcourse" element={<CreateCourse />} />
+        <Route path="/createcourse" element={<CreateCourse />} />"
+        <Route path="/courses/:id" element={<CourseDetails />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </Router>

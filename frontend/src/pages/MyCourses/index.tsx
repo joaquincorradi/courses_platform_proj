@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import CourseCard from "../../components/CourseCard";
+import MyCourseCard from "../../components/MyCourseCard";
 import Header from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Title from "../../components/Title";
@@ -16,7 +16,6 @@ interface Course {
   title: string;
   description: string;
   requirements: string;
-  rating: number;
   course_image: string;
   category: string;
 }
@@ -30,7 +29,7 @@ function MyCourses() {
   useEffect(() => {
     if (token) {
       axios
-        .post("http://localhost:8080/users_courses", { token })
+        .post("http://localhost:8080/my_courses", { token })
         .then((response) => {
           setCourses(response.data.courses);
         })
@@ -47,7 +46,7 @@ function MyCourses() {
   }, [token]);
 
   return (
-    <Container>
+    <Container className="courses-container">
       <Header />
       <Title title="Mis cursos" />
       {isLoading ? (
@@ -57,15 +56,20 @@ function MyCourses() {
       ) : error ? (
         <Alert variant="danger">{error}</Alert>
       ) : (
-        <Row>
+        <Row className="gy-4 courses-row-config">
           {courses.map((course) => (
-            <Col key={course.id} sm={12} md={6} lg={4} className="mb-4">
-              <CourseCard
+            <Col
+              key={course.id}
+              sm={12}
+              md={6}
+              lg={4}
+              className="d-flex align-items-stretch"
+            >
+              <MyCourseCard
                 id={course.id}
                 title={course.title}
                 description={course.description}
                 requirements={course.requirements}
-                rating={course.rating}
                 courseImage={course.course_image}
                 category={course.category}
               />

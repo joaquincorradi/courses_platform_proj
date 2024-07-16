@@ -1,9 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Toast from "react-bootstrap/Toast";
 import Badge from "react-bootstrap/Badge";
-import ReactStars from "react-stars";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./courseCard.css";
@@ -13,7 +13,6 @@ interface CourseCardProps {
   title: string;
   description: string;
   requirements: string;
-  rating?: number;
   courseImage: string;
   category: string;
 }
@@ -23,10 +22,10 @@ function CourseCard({
   title,
   description,
   requirements,
-  rating,
   courseImage,
   category,
 }: CourseCardProps) {
+  const navigate = useNavigate();
   const token = Cookies.get("token");
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -35,7 +34,7 @@ function CourseCard({
   useEffect(() => {
     if (token) {
       axios
-        .post("http://localhost:8080/users_courses", { token })
+        .post("http://localhost:8080/my_courses", { token })
         .then((response) => {
           const enrolledCourses = response.data.courses;
           if (
@@ -53,7 +52,7 @@ function CourseCard({
   const handleEnroll = () => {
     if (token) {
       axios
-        .post("http://localhost:8080/users_courses/inscription", { token, id })
+        .post("http://localhost:8080/inscription", { token, id })
         .then(() => {
           setIsEnrolled(true);
           setToastMessage("¡Inscripción exitosa!");
@@ -67,6 +66,10 @@ function CourseCard({
     } else {
       window.location.href = "/login";
     }
+  };
+
+  const handleShowDetails = () => {
+    navigate(`/courses/${id}`);
   };
 
   const categories = category.split(",").map((cat, index) => (
@@ -83,24 +86,19 @@ function CourseCard({
           <Card.Title>{title}</Card.Title>
           <Card.Text>{description}</Card.Text>
           <Card.Text>Requisitos: {requirements}</Card.Text>
-          <Card.Text>
-            <ReactStars
-              count={5}
-              value={rating}
-              size={24}
-              edit={false}
-              half={true}
-              color2={"#ffd700"}
-            />
-          </Card.Text>
           <Card.Text>{categories}</Card.Text>
-          <Button
-            variant="primary"
-            onClick={handleEnroll}
-            disabled={isEnrolled}
-          >
-            {isEnrolled ? "Inscripto" : "Inscribirse"}
-          </Button>
+          <div className="d-grid gap-2">
+            <Button
+              variant="primary"
+              onClick={handleEnroll}
+              disabled={isEnrolled}
+            >
+              {isEnrolled ? "Inscripto" : "Inscribirse"}
+            </Button>
+            <Button variant="outline-primary" onClick={handleShowDetails}>
+              Mostrar detalles
+            </Button>
+          </div>
         </Card.Body>
       </Card>
       <Toast

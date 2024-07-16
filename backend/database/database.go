@@ -28,10 +28,7 @@ func ConnectToDB() {
 		&models.Course{},
 		&models.User{},
 		&models.User_Course{},
+		&models.Feedback{},
+		&models.File{},
 	)
-
-	// err1 := DB.SetupJoinTable(&models.User{}, "Courses", &models.User_Course{})
-	// if err1 != nil {
-	// 	panic("Failed to join tables")
-	// }
 }

@@ -22,10 +22,6 @@ func CreateCourse(request coursesDTO.CreateCourseRequest) error {
 		return errors.New("requirements is required")
 	}
 
-	/*if strings.TrimSpace(request.Rating) == "" {
-		return errors.New("rating is required")
-	}*/
-
 	if strings.TrimSpace(request.CourseImage) == "" {
 		return errors.New("courseImage is required")
 	}
@@ -40,7 +36,6 @@ func CreateCourse(request coursesDTO.CreateCourseRequest) error {
 		Requirements: request.Requirements,
 		StartDate:    request.StartDate,
 		EndDate:      request.EndDate,
-		Rating:       request.Rating,
 		CourseImage:  request.CourseImage,
 		Category:     request.Category,
 	}
@@ -73,7 +68,6 @@ func GetCourses() ([]coursesDTO.Course, error) {
 			Requirements: course.Requirements,
 			StartDate:    course.StartDate,
 			EndDate:      course.EndDate,
-			Rating:       course.Rating,
 			CourseImage:  course.CourseImage,
 			Category:     course.Category,
 		}
@@ -102,7 +96,6 @@ func Search(query string) ([]coursesDTO.Course, error) {
 			Requirements: course.Requirements,
 			StartDate:    course.StartDate,
 			EndDate:      course.EndDate,
-			Rating:       course.Rating,
 			CourseImage:  course.CourseImage,
 			Category:     course.Category,
 		})
@@ -142,10 +135,50 @@ func ShowCourse(id string) (coursesDTO.Course, error) {
 		Requirements: course.Requirements,
 		StartDate:    course.StartDate,
 		EndDate:      course.EndDate,
-		Rating:       course.Rating,
 		CourseImage:  course.CourseImage,
 		Category:     course.Category,
 	}
 
 	return courseDTO, nil
+}
+
+func UpdateCourse(request coursesDTO.UpdateCourseRequest) error {
+	if strings.TrimSpace(request.Title) == "" {
+		return errors.New("title is required")
+	}
+
+	if strings.TrimSpace(request.Description) == "" {
+		return errors.New("description is required")
+	}
+
+	if strings.TrimSpace(request.Requirements) == "" {
+		return errors.New("requirements is required")
+	}
+
+	if strings.TrimSpace(request.CourseImage) == "" {
+		return errors.New("courseImage is required")
+	}
+
+	if strings.TrimSpace(request.Category) == "" {
+		return errors.New("category is required")
+	}
+
+	course := models.Course{
+		ID:           request.ID,
+		Title:        request.Title,
+		Description:  request.Description,
+		Requirements: request.Requirements,
+		StartDate:    request.StartDate,
+		EndDate:      request.EndDate,
+		CourseImage:  request.CourseImage,
+		Category:     request.Category,
+	}
+
+	err := clients.UpdateCourse(course)
+
+	if err != nil {
+		return errors.New("error updating course in DB")
+	}
+
+	return nil
 }

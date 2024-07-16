@@ -7,7 +7,6 @@ import (
 )
 
 func InsertCourse(courseInsert models.Course) error {
-
 	result := database.DB.Create(&courseInsert)
 
 	if result.Error != nil {
@@ -18,7 +17,6 @@ func InsertCourse(courseInsert models.Course) error {
 }
 
 func SelectCourse() ([]models.Course, error) {
-
 	var courses []models.Course
 
 	database.DB.Find(&courses)
@@ -27,7 +25,6 @@ func SelectCourse() ([]models.Course, error) {
 }
 
 func SelectCourseWithFilter(query string) ([]models.Course, error) {
-
 	var courses []models.Course
 
 	result := database.DB.Where("title LIKE ? OR description LIKE ? OR category LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%").Find(&courses)
@@ -50,12 +47,6 @@ func SelectCourseById(id int) (models.Course, error) {
 	return course, nil
 }
 
-// func SoftDeleteCourse(id int) error {
-// 	course := SelectCourseById(id)
-
-// 	database.DB.
-// }
-
 func DeleteCourse(id int) error {
 	course, err := SelectCourseById(id)
 	if err != nil {
@@ -63,6 +54,16 @@ func DeleteCourse(id int) error {
 	}
 
 	database.DB.Delete(&course, "id = ?", id)
+
+	return nil
+}
+
+func UpdateCourse(course models.Course) error {
+	result := database.DB.Save(&course)
+
+	if result.Error != nil {
+		return errors.New("error updating course")
+	}
 
 	return nil
 }

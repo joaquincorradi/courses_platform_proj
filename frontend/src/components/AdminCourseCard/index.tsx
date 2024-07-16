@@ -1,7 +1,6 @@
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
-import ReactStars from "react-stars";
 import { useNavigate } from "react-router-dom";
 import "./adminCourseCard.css"; // Asegúrate de tener un archivo CSS para estilos específicos
 
@@ -21,7 +20,6 @@ function AdminCourseCard({
   title,
   description,
   requirements,
-  rating,
   courseImage,
   category,
   onDelete,
@@ -45,16 +43,6 @@ function AdminCourseCard({
         <Card.Title>{title}</Card.Title>
         <Card.Text>{description}</Card.Text>
         <Card.Text>Requisitos: {requirements}</Card.Text>
-        <Card.Text>
-          <ReactStars
-            count={5}
-            value={rating}
-            size={24}
-            edit={false}
-            half={true}
-            color2={"#ffd700"}
-          />
-        </Card.Text>
         <Card.Text>{categories}</Card.Text>
         <div className="admin-course-buttons d-flex justify-content-between">
           <Button
