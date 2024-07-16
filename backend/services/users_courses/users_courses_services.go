@@ -224,11 +224,10 @@ func GetCourseAndCommentsAndFiles(id string) (usersCoursesDTO.Course, []usersCou
 		}
 
 		fileDTO := usersCoursesDTO.File{
-			UserID:    file.UserID,
-			UserName:  userNameFile,
-			CourseID:  file.CourseID,
-			FileName:  file.FileName,
-			Extension: file.Extension,
+			UserID:   file.UserID,
+			UserName: userNameFile,
+			CourseID: file.CourseID,
+			FileName: file.FileName,
 		}
 		filesDTOs = append(filesDTOs, fileDTO)
 	}
